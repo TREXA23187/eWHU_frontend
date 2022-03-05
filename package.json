@@ -1,0 +1,140 @@
+{
+    "name": "react-admin",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@craco/craco": "^5.6.4",
+        "animate.css": "^3.7.2",
+        "antd": "^4.2.4",
+        "axios": "^0.21.1",
+        "braft-editor": "^2.3.8",
+        "craco-alias": "^2.1.1",
+        "craco-antd": "^1.14.1",
+        "echarts": "^4.4.0",
+        "eslint-plugin-react-hooks": "^2.3.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.1.1",
+        "react-scripts": "^3.4.1",
+        "screenfull": "^5.0.0"
+    },
+    "devDependencies": {
+        "@koa/cors": "^3.0.0",
+        "@loadable/component": "^5.12.0",
+        "husky": "^3.0.9",
+        "koa": "^2.7.0",
+        "koa-body": "^4.1.0",
+        "koa-logger": "^3.2.1",
+        "koa-router": "^7.4.0",
+        "lint-staged": "^9.4.2",
+        "nodemon": "^2.0.2",
+        "prettier": "^1.18.2"
+    },
+    "scripts": {
+        "server": "nodemon --watch ./__mocks__/server ./__mocks__/server/index.js",
+        "start": "craco start",
+        "build": "craco build",
+        "test": "craco test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app",
+        "plugins": [
+            "react-hooks"
+        ],
+        "rules": {
+            "react-hooks/rules-of-hooks": "error",
+            "react-hooks/exhaustive-deps": "warn",
+            "no-multi-spaces": 1,
+            "react/jsx-space-before-closing": 1,
+            "jsx-quotes": 1,
+            "react/jsx-closing-bracket-location": 1,
+            "react/jsx-boolean-value": 1,
+            "react/no-string-refs": 1,
+            "react/self-closing-comp": 1,
+            "react/sort-comp": 1,
+            "react/jsx-pascal-case": 1,
+            "semi": [
+                "error",
+                "always"
+            ],
+            "quotes": [
+                "error",
+                "double"
+            ],
+            "arrow-spacing": [
+                2,
+                {
+                    "before": true,
+                    "after": true
+                }
+            ],
+            "block-spacing": [
+                2,
+                "always"
+            ],
+            "brace-style": [
+                2,
+                "1tbs",
+                {
+                    "allowSingleLine": true
+                }
+            ],
+            "camelcase": [
+                0,
+                {
+                    "properties": "always"
+                }
+            ],
+            "comma-dangle": 0,
+            "comma-spacing": [
+                2,
+                {
+                    "before": false,
+                    "after": true
+                }
+            ],
+            "generator-star-spacing": [
+                2,
+                {
+                    "before": true,
+                    "after": true
+                }
+            ],
+            "indent": [
+                2,
+                2,
+                {
+                    "SwitchCase": 1
+                }
+            ]
+        }
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.{js,jsx,ts,tsx,json,css,less,scss,md}": [
+            "node_modules/.bin/prettier --write",
+            "git add"
+        ],
+        "src/**/*.{css,scss,less,json,html,md,markdown}": [
+            "node_modules/.bin/prettier --write",
+            "git add"
+        ]
+    }
+}

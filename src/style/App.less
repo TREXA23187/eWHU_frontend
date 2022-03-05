@@ -1,0 +1,74 @@
+// 仅支持 chrome 滚动条样式
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+// ::-webkit-scrollbar {
+//     width: 0;
+//     height: 10;
+// }
+
+// /*定义滚动条轨道 内阴影+圆角*/
+// ::-webkit-scrollbar-track {
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+// }
+
+// /*定义滑块 内阴影+圆角*/
+// ::-webkit-scrollbar-thumb {
+//     border-radius: 10px;
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//     background-color: #ccc;
+// }
+
+::-webkit-scrollbar {
+    /* 滚动条整体样式 */
+    /*高宽分别对应横竖滚动条的尺寸*/
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-thumb {
+    /* 滚动条里面小方块 */
+    // border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 7px;
+    background-color: var(--color-text-4);
+}
+/* 需要滚动的地方加上这个class，并且要检查去除元素原有的 overflow: auto 属性 */
+.auto-scroll {
+    overflow: auto;
+    overflow: overlay;
+}
+.auto-scroll {
+    &::-webkit-scrollbar {
+        /* 组件内滚动条不显示 */
+        display: none;
+    }
+}
+.auto-scroll:hover {
+    &::-webkit-scrollbar {
+        /* 悬停时滚动条才显示 */
+        display: block;
+    }
+}
+
+.base-style {
+    background-color: #fff;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0px 2px 13px 0px rgba(228, 228, 228, 0.6);
+}
+
+// @font-face {
+//     font-family: 'webfont';
+//     font-display: swap;
+//     src: url('../assets/font/webfont.eot'); /* IE9 */
+//     src: url('../assets/font/webfont.eot') format('embedded-opentype'), /* IE6-IE8 */
+//     url('../assets/font/webfont.woff2') format('woff2'),
+//     url('../assets/font/webfont.woff') format('woff'), /* chrome、firefox */
+//     url('../assets/font/webfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+//     url('../assets/font/webfont.svg') format('svg'); /* iOS 4.1- */
+// }
+
+// html,
+// body {
+//     font-family: 'webfont' !important;
+// }
