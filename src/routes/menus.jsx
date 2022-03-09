@@ -46,7 +46,13 @@ const menus = [
             { title: '基础表单', key: '/form/base-form', icon: '' },
             { title: '步骤表单', key: '/form/step-form', icon: '' }
         ]
-    }
+    },
+    {
+        key: '/map',
+        title: '地图',
+        icon: <PieChartOutlined />,
+        auth: [1]
+    },
     // {
     //     title: '展示',
     //     key: '/show',
@@ -85,12 +91,12 @@ const menus = [
     //         }
     //     ]
     // },
-    // {
-    //     title: '关于',
-    //     key: '/about',
-    //     icon: <UserOutlined />,
-    //     auth: [1]
-    // },
+    {
+        title: '关于',
+        key: '/about',
+        icon: <UserOutlined />,
+        auth: [1]
+    },
     // {
     //     title: '示例',
     //     key: '/test',
@@ -111,7 +117,9 @@ export const routesNameMap = {
     '/nav/menu': '导航菜单',
     '/nav/steps': '步骤条',
     '/form/base-form': '基础表单',
-    '/form/step-form': '步骤表单'
+    '/form/step-form': '步骤表单',
+    '/map':'地图',
+    '/about':'关于'
 }
 
 export default menus

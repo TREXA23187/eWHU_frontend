@@ -4,6 +4,8 @@ import AsyncLoadable from '@/utils/AsyncLoadable'
 import 'animate.css'
 import './style/base.less'
 import './style/App.less'
+// import 'leaflet/dist/leaflet.css'
+// import './style/supermap.less'
 
 // 公共模块
 const DefaultLayout = AsyncLoadable(() => import(/* webpackChunkName: 'default' */ './containers'))

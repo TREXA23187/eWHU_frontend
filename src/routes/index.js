@@ -39,6 +39,9 @@ const Example1 = AsyncLoadable(() => import(/* webpackChunkName: 'example1' */ '
 const Example2 = AsyncLoadable(() => import(/* webpackChunkName: 'example2' */ '@/views/Test/Example2/index'))
 // const Example3 = AsyncLoadable(() => import(/* webpackChunkName: 'example3' */ '@/views/Test/Example3'))
 
+// 地图
+const Map = AsyncLoadable(() => import(/* webpackChunkName: 'map' */ '@/views/Map'))
+
 const routes = [
     { path: '/index', exact: true, name: 'Index', component: Index, auth: [1] },
     { path: '/public/button', exact: false, name: '按钮', component: ButtonView, auth: [1] },
@@ -59,7 +62,8 @@ const routes = [
     { path: '/level1/level2/level3', exact: false, name: '三级', component: Multilevel },
     { path: '/about', exact: false, name: '关于', component: About, auth: [1] },
     { path: '/test/example1', exact: false, name: '示例1', component: Example1, auth: [1] },
-    { path: '/test/example2', exact: false, name: '示例2', component: Example2, auth: [1] }
+    { path: '/test/example2', exact: false, name: '示例2', component: Example2, auth: [1] },
+    { path: '/map', exact: false, name: '地图', component: Map, auth: [1] }
     // { path: '/test/example3', exact: false, name: '示例3', component: Example3, auth: [1] }
 ]
 

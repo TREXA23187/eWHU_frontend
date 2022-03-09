@@ -40,7 +40,6 @@ const DefaultLayout = props => {
     })
 
     let auth = ls.get('user')?.auth || ''
-    console.log(auth)
 
     const [menuToggle, setMenuToggle] = useState(false)
     const [panes, setPanes] = useState(
@@ -85,35 +84,35 @@ const DefaultLayout = props => {
         history.replace(newPanes[0]?.key || '/index')
     }
 
-    const renderTabPaneItem = ({ key, title, closable }) => (
-        <TabPane
-            tab={
-                <Link to={key} replace>
-                    <span>{title}</span>
-                </Link>
-            }
-            key={key}
-            closable={closable}
-        />
-    )
+    const renderTabPaneItem = ({ key, title, closable }) => {
+        return <TabPane tab={title} key={key} closable={closable} />
+    }
+
+    const updateTabs = (key, panes) => {
+        setActiveKey(key)
+        setPanes(panes)
+    }
 
     return (
         <Layout className='app'>
             <BackTop />
-            <AppAside menuToggle={menuToggle} menu={menu} updateTabs={setPanes} />
+            <AppAside menuToggle={menuToggle} menu={menu} updateTabs={updateTabs} />
             <Layout style={{ minHeight: '100vh' }}>
                 <AppHeader menuToggle={menuToggle} menuClick={menuClick} avatar={avatar} loginOut={loginOut} />
                 <Content className='content'>
                     <Tabs
                         hideAdd
                         type='editable-card'
-                        onChange={setActiveKey}
+                        onChange={key => {
+                            setActiveKey(key)
+                            history.replace(key)
+                        }}
                         activeKey={activeKey}
                         onEdit={remove}
                         style={{ marginBottom: -17 }}>
-                        {panes?.map(pane =>
-                            renderTabPaneItem({ key: pane.key, title: pane.title, closable: pane.closable })
-                        )}
+                        {panes?.map(pane => (
+                            <TabPane tab={pane.title} key={pane.key} closable={pane.closable} />
+                        ))}
                     </Tabs>
                     <Switch>
                         {routes.map(item => {

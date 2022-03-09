@@ -95,7 +95,7 @@ const SideMenu = props => {
                 const newTabList = ss.get('tabList').filter(item => item.key !== key)
                 newTabList.unshift({ key, content: '', title: routesNameMap[key], closable: true })
                 newTabList.forEach(item => (item.closable = true))
-                props.updateTabs(newTabList)
+                props.updateTabs(newTabList[0].key, newTabList)
                 ss.set('tabList', newTabList)
             }}
             onOpenChange={onOpenChange}>
