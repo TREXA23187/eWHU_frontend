@@ -1,18 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import { LocaleProvider } from 'antd'
-import enUS from 'antd/lib/locale-provider/en_US'
+import i18n from '@/locale'
+import { ls } from '@/utils/storage'
 
 // return (
 //   <LocaleProvider locale={enUS}>
 //     <App />
 //   </LocaleProvider>
 // );
+console.log(ls.get('lang'))
 
-ReactDOM.render(
-    <LocaleProvider locale={enUS}>
-        <App />
-    </LocaleProvider>,
-    document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById('root'))

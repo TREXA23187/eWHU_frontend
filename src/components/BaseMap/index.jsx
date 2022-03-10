@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import L from 'leaflet'
 import '@supermap/iclient-leaflet'
 import 'leaflet-draw'
@@ -22,6 +23,9 @@ const wsHost = 'wss://' + (window.isLocal ? document.location.hostname + ':8800'
 const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow'
 
 export default function BaseMap(props) {
+    const { t, i18n } = useTranslation()
+    console.log(t('数据查询'))
+
     const [baseMap, setBaseMap] = useState(null)
 
     const [editableLayer, setEditableLayer] = useState(null)
@@ -340,7 +344,7 @@ export default function BaseMap(props) {
             <div className='base-style'>
                 <div className='button-area'>
                     <Button className='base-button' onClick={() => query(baseMap)}>
-                        数据查询
+                        {t('数据查询')}
                     </Button>
                     <Button className='base-button'>何时使用</Button>
                     <Button className='base-button'>何时使用</Button>
