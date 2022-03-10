@@ -140,12 +140,12 @@
     },
     "lint-staged": {
         "src/**/*.{js,jsx,ts,tsx,json,css,less,scss,md}": [
-            "node_modules/.bin/prettier --write",
-            "git add"
+            "node_modules/.bin/prettier --write",
+            "git add"
         ],
         "src/**/*.{css,scss,less,json,html,md,markdown}": [
-            "node_modules/.bin/prettier --write",
-            "git add"
+            "node_modules/.bin/prettier --write",
+            "git add"
         ]
     }
 }
