@@ -26,5 +26,16 @@ module.exports = {
                 extensions: ['js', 'jsx']
             }
         }
-    ]
+    ],
+    devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3001',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }
+    }
 }

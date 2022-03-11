@@ -11,6 +11,8 @@ import { BasemapType } from '@/constants/basemap'
 import { Button, Form, Input, Select, Alert, Result } from 'antd'
 import { query } from '@/utils/map'
 
+import SearchDataModel from './search-data-model'
+
 const baseUrl = '8.134.215.136'
 
 const url = `http://${baseUrl}:8090/iserver/services/map-whu_map/rest/maps/whu_map`
@@ -24,7 +26,6 @@ const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow'
 
 export default function BaseMap(props) {
     const { t, i18n } = useTranslation()
-    console.log(t('数据查询'))
 
     const [baseMap, setBaseMap] = useState(null)
 
@@ -35,6 +36,8 @@ export default function BaseMap(props) {
     const [layersList, setLayersList] = useState([])
 
     const [bufferRoute, setBufferRoute] = useState(null)
+
+    const [visible, setVisible] = useState(false)
 
     const mapRef = useRef(null)
 
@@ -152,8 +155,8 @@ export default function BaseMap(props) {
         ])
 
         const baseMaps = {
-            vec: tiandituLayer,
-            img: tiandituLayerImg
+            img: tiandituLayerImg,
+            vec: tiandituLayer
         }
         const overlayMaps = {
             campas: whuLayer
@@ -339,11 +342,19 @@ export default function BaseMap(props) {
         })
     }
 
+    const onOk = () => {
+        setVisible(false)
+    }
+
     return (
         <div>
             <div className='base-style'>
                 <div className='button-area'>
-                    <Button className='base-button' onClick={() => query(baseMap)}>
+                    <Button
+                        className='base-button'
+                        onClick={() => {
+                            setVisible(true)
+                        }}>
                         {t('数据查询')}
                     </Button>
                     <Button className='base-button'>何时使用</Button>
@@ -357,6 +368,7 @@ export default function BaseMap(props) {
                 <button onClick={handleFindPath}>match</button>
                 <button onClick={handleBuffer}>buffer</button>
             </div>
+            <SearchDataModel visible={visible} onOk={onOk} onCancel={() => setVisible(false)} />
         </div>
     )
 }
