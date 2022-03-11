@@ -342,10 +342,6 @@ export default function BaseMap(props) {
         })
     }
 
-    const onOk = () => {
-        setVisible(false)
-    }
-
     return (
         <div>
             <div className='base-style'>
@@ -353,6 +349,7 @@ export default function BaseMap(props) {
                     <Button
                         className='base-button'
                         onClick={() => {
+                            // query(baseMap)
                             setVisible(true)
                         }}>
                         {t('数据查询')}
@@ -368,7 +365,7 @@ export default function BaseMap(props) {
                 <button onClick={handleFindPath}>match</button>
                 <button onClick={handleBuffer}>buffer</button>
             </div>
-            <SearchDataModel visible={visible} onOk={onOk} onCancel={() => setVisible(false)} />
+            <SearchDataModel visible={visible} onClose={() => setVisible(false)} map={baseMap} />
         </div>
     )
 }

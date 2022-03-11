@@ -1,4 +1,5 @@
 export default {
-    数据查询: 'search data',
-    查询: 'search'
+    数据查询: 'Search data',
+    查询: 'Search',
+    取消: 'Cancel'
 }

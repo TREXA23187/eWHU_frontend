@@ -6,14 +6,13 @@ import { query } from '@/utils/map'
 const Option = Select.Option
 
 export default function SearchDataModel(props) {
-    const { map, visible, onOk, onCancel } = props
+    const { map, visible, onClose } = props
     const { t, i18n } = useTranslation()
 
-    const onFinish = values => {
-        console.log('Success:', values)
+    const onFinish = async values => {
         const { dataName, dataFilter } = values
-        const res = query(map, dataName, dataFilter)
-        console.log(res)
+        await query(map, dataName, dataFilter)
+        onClose()
     }
 
     const handleChange = value => {
@@ -21,21 +20,16 @@ export default function SearchDataModel(props) {
     }
 
     return (
-        <Modal title={t('数据查询')} visible={visible} onOk={onOk} onCancel={onCancel}>
-            <Form
-                // labelCol={{ span: 8 }}
-                // wrapperCol={{ span: 16 }}
-                initialValues={{ dataName: 'POI' }}
-                onFinish={onFinish}
-                autoComplete='off'>
+        <Modal title={t('数据查询')} visible={visible} destroyOnClose okText={'查询'} footer={null}>
+            <Form initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
                 <Form.Item
                     label='数据名称'
                     name='dataName'
                     rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Select style={{ width: 120 }} onChange={handleChange}>
                         <Option value='POI'>POI</Option>
-                        <Option value='boundary'>学校范围</Option>
-                        <Option value='building'>建筑</Option>
+                        <Option value='学校范围'>学校范围</Option>
+                        <Option value='建筑'>建筑</Option>
                     </Select>
                 </Form.Item>
 
@@ -49,6 +43,9 @@ export default function SearchDataModel(props) {
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type='primary' htmlType='submit'>
                         {t('查询')}
+                    </Button>
+                    <Button style={{ marginLeft: 12 }} onClick={onClose}>
+                        {t('取消')}
                     </Button>
                 </Form.Item>
             </Form>
