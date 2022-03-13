@@ -3,20 +3,20 @@
  * https://github.com/kothing/react-hook-store/
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-let stores = {}
-let subscriptions = {}
+let stores = {};
+let subscriptions = {};
 
-const defaultReducer = (state, payload) => payload
+const defaultReducer = (state, payload) => payload;
 
 /** The public interface of a store */
 class StoreInterface {
     constructor(name, store, useReducer) {
-        this.name = name
-        useReducer ? (this.dispatch = store.setState) : (this.setState = store.setState)
-        this.getState = () => store.state
-        this.subscribe = this.subscribe.bind(this)
+        this.name = name;
+        useReducer ? (this.dispatch = store.setState) : (this.setState = store.setState);
+        this.getState = () => store.state;
+        this.subscribe = this.subscribe.bind(this);
     }
 
     /**
@@ -31,37 +31,37 @@ class StoreInterface {
      */
     subscribe(callback) {
         if (!callback || typeof callback !== 'function') {
-            throw new Error(`store.subscribe callback argument must be a function. got '${typeof callback}' instead.`)
+            throw new Error(`store.subscribe callback argument must be a function. got '${typeof callback}' instead.`);
         }
         if (subscriptions[this.name].find(c => c === callback)) {
-            console.warn('This callback is already subscribed to this store. skipping subscription')
-            return
+            console.warn('This callback is already subscribed to this store. skipping subscription');
+            return;
         }
-        subscriptions[this.name].push(callback)
+        subscriptions[this.name].push(callback);
         return () => {
-            subscriptions[this.name] = subscriptions[this.name].filter(c => c !== callback)
-        }
+            subscriptions[this.name] = subscriptions[this.name].filter(c => c !== callback);
+        };
     }
 
     setState() {
         console.warn(
             `[React State Management] Store ${this.name} uses a reducer to handle its state updates. use dispatch instead of setState`
-        )
+        );
     }
 
     dispatch() {
         console.warn(
             `[React State Management Base on Hook] Store ${this.name} does not use a reducer to handle state updates. use setState instead of dispatch`
-        )
+        );
     }
 }
 
 function getStoreByIdentifier(identifier) {
-    const name = identifier instanceof StoreInterface ? identifier.name : identifier
+    const name = identifier instanceof StoreInterface ? identifier.name : identifier;
     if (!stores[name]) {
-        throw new Error(`Store with name ${name} does not exist`)
+        throw new Error(`Store with name ${name} does not exist`);
     }
-    return stores[name]
+    return stores[name];
 }
 
 /**
@@ -77,31 +77,31 @@ function getStoreByIdentifier(identifier) {
  */
 export function createStore(name, state = {}, reducer = defaultReducer) {
     if (typeof name !== 'string') {
-        throw new Error('Store name must be a string')
+        throw new Error('Store name must be a string');
     }
     if (stores[name]) {
-        throw new Error(`Store with name ${name} already exists`)
+        throw new Error(`Store with name ${name} already exists`);
     }
 
     const store = {
         state,
         reducer,
         setState(action, callback) {
-            this.state = this.reducer(this.state, action)
-            this.setters.forEach(setter => setter(this.state))
+            this.state = this.reducer(this.state, action);
+            this.setters.forEach(setter => setter(this.state));
             if (subscriptions[name].length) {
-                subscriptions[name].forEach(c => c(this.state, action))
+                subscriptions[name].forEach(c => c(this.state, action));
             }
-            if (typeof callback === 'function') callback(this.state)
+            if (typeof callback === 'function') callback(this.state);
         },
         setters: []
-    }
-    store.setState = store.setState.bind(store)
-    subscriptions[name] = []
-    store.public = new StoreInterface(name, store, reducer !== defaultReducer)
+    };
+    store.setState = store.setState.bind(store);
+    subscriptions[name] = [];
+    store.public = new StoreInterface(name, store, reducer !== defaultReducer);
 
-    stores = Object.assign({}, stores, { [name]: store })
-    return store.public
+    stores = Object.assign({}, stores, { [name]: store });
+    return store.public;
 }
 
 /**
@@ -112,9 +112,9 @@ export function createStore(name, state = {}, reducer = defaultReducer) {
 
 export function getStoreByName(name) {
     try {
-        return stores[name].public
+        return stores[name].public;
     } catch (e) {
-        throw new Error(`Store with name ${name} does not exist`)
+        throw new Error(`Store with name ${name} does not exist`);
     }
 }
 
@@ -124,18 +124,18 @@ export function getStoreByName(name) {
  * @returns {Array} the [state, setState] pair.
  */
 export function useStore(identifier) {
-    const store = getStoreByIdentifier(identifier)
-    const [state, set] = useState(store.state)
+    const store = getStoreByIdentifier(identifier);
+    const [state, set] = useState(store.state);
 
     useEffect(() => {
         if (!store.setters.includes(set)) {
-            store.setters.push(set)
+            store.setters.push(set);
         }
 
         return () => {
-            store.setters = store.setters.filter(setter => setter !== set)
-        }
-    }, [store])
+            store.setters = store.setters.filter(setter => setter !== set);
+        };
+    }, [store]);
 
-    return [state, store.setState]
+    return [state, store.setState];
 }

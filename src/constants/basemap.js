@@ -1,5 +1,5 @@
 export const BasemapType = {
-  vec: "vec",
-  img: "img",
-  ter: "ter",
+    vec: 'vec',
+    img: 'img',
+    ter: 'ter'
 };

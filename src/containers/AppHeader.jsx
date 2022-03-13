@@ -1,6 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Menu, Dropdown, Layout, Avatar, Badge } from 'antd'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Menu, Dropdown, Layout, Avatar, Badge } from 'antd';
 import {
     BellOutlined,
     EditOutlined,
@@ -9,13 +9,13 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     SettingOutlined
-} from '@ant-design/icons'
-import { changeLocale } from '@/locale/utils'
+} from '@ant-design/icons';
+import { changeLocale } from '@/locale/utils';
 
-const { Header } = Layout
+const { Header } = Layout;
 
 const AppHeader = props => {
-    let { menuClick, avatar, menuToggle, loginOut } = props
+    let { menuClick, avatar, menuToggle, loginOut } = props;
     const menu = (
         <Menu>
             <Menu.ItemGroup title='用户设置'>
@@ -44,7 +44,7 @@ const AppHeader = props => {
                 </span>
             </Menu.Item>
         </Menu>
-    )
+    );
     return (
         <Header className='header'>
             <div className='left'>
@@ -73,14 +73,14 @@ const AppHeader = props => {
                 </div>
             </div>
         </Header>
-    )
-}
+    );
+};
 
 AppHeader.propTypes = {
     menuClick: PropTypes.func,
     avatar: PropTypes.string,
     menuToggle: PropTypes.bool,
     loginOut: PropTypes.func
-}
+};
 
-export default AppHeader
+export default AppHeader;

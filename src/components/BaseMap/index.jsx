@@ -1,44 +1,44 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import L from 'leaflet'
-import '@supermap/iclient-leaflet'
-import 'leaflet-draw'
-import 'leaflet-draw/dist/leaflet.draw.css'
-import './index.less'
-import { SuperMap } from '@supermap/iclient-leaflet'
-import { BasemapType } from '@/constants/basemap'
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import L from 'leaflet';
+import '@supermap/iclient-leaflet';
+import 'leaflet-draw';
+import 'leaflet-draw/dist/leaflet.draw.css';
+import './index.less';
+import { SuperMap } from '@supermap/iclient-leaflet';
+import { BasemapType } from '@/constants/basemap';
 // import walkIcon from "../../assets/image/walk.png"
-import { Button, Form, Input, Select, Alert, Result } from 'antd'
+import { Button, Form, Input, Select, Alert, Result } from 'antd';
 
-import SearchDataModel from './search-data-modal'
+import SearchDataModel from './search-data-modal';
 
-const baseUrl = '8.134.215.136'
+const baseUrl = '8.134.215.136';
 
-const url = `http://${baseUrl}:8090/iserver/services/map-whu_map/rest/maps/whu_map`
-const serviceUrl = `http://${baseUrl}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map` //路径分析url
-const bufferUrl = `http://${baseUrl}:8090/iserver/services/spatialAnalysis-whu_map/restjsr/spatialanalyst` //缓冲区分析url
+const url = `http://${baseUrl}:8090/iserver/services/map-whu_map/rest/maps/whu_map`;
+const serviceUrl = `http://${baseUrl}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; //路径分析url
+const bufferUrl = `http://${baseUrl}:8090/iserver/services/spatialAnalysis-whu_map/restjsr/spatialanalyst`; //缓冲区分析url
 
-const host = window.isLocal ? window.server : 'https://iserver.supermap.io'
-const urlQuery = host + '/iserver/services/map-china400/rest/maps/China_4326'
-const wsHost = 'wss://' + (window.isLocal ? document.location.hostname + ':8800' : 'iclsvrws.supermap.io')
-const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow'
+const host = window.isLocal ? window.server : 'https://iserver.supermap.io';
+const urlQuery = host + '/iserver/services/map-china400/rest/maps/China_4326';
+const wsHost = 'wss://' + (window.isLocal ? document.location.hostname + ':8800' : 'iclsvrws.supermap.io');
+const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow';
 
 export default function BaseMap(props) {
-    const { t, i18n } = useTranslation()
+    const { t, i18n } = useTranslation();
 
-    const [baseMap, setBaseMap] = useState(null)
+    const [baseMap, setBaseMap] = useState(null);
 
-    const [editableLayer, setEditableLayer] = useState(null)
-    const [markerLayer, setMarkerLayer] = useState(null)
-    const [tiandituType, setTiandituType] = useState(BasemapType.vec)
-    const [pathNodes, setPathNodes] = useState([])
-    const [layersList, setLayersList] = useState([])
+    const [editableLayer, setEditableLayer] = useState(null);
+    const [markerLayer, setMarkerLayer] = useState(null);
+    const [tiandituType, setTiandituType] = useState(BasemapType.vec);
+    const [pathNodes, setPathNodes] = useState([]);
+    const [layersList, setLayersList] = useState([]);
 
-    const [bufferRoute, setBufferRoute] = useState(null)
+    const [bufferRoute, setBufferRoute] = useState(null);
 
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
 
-    const mapRef = useRef(null)
+    const mapRef = useRef(null);
 
     useEffect(() => {
         const map = L.map(mapRef.current, {
@@ -47,17 +47,17 @@ export default function BaseMap(props) {
             crs: L.CRS.TianDiTu_WGS84,
             attributionControl: false, //隐藏copyright
             invalidateSize: true
-        })
+        });
 
-        setBaseMap(map)
+        setBaseMap(map);
 
-        const editableLayers = new L.FeatureGroup()
-        map.addLayer(editableLayers)
-        setEditableLayer(editableLayers)
+        const editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+        setEditableLayer(editableLayers);
 
-        const markerLayers = new L.FeatureGroup()
-        map.addLayer(markerLayers)
-        setMarkerLayer(markerLayers)
+        const markerLayers = new L.FeatureGroup();
+        map.addLayer(markerLayers);
+        setMarkerLayer(markerLayers);
 
         const options = {
             position: 'topleft',
@@ -73,55 +73,55 @@ export default function BaseMap(props) {
                 featureGroup: editableLayers,
                 remove: true
             }
-        }
+        };
 
-        const drawControl = new L.Control.Draw(options)
-        map.addControl(drawControl)
+        const drawControl = new L.Control.Draw(options);
+        map.addControl(drawControl);
 
-        handleMapEvent(drawControl._container, map)
+        handleMapEvent(drawControl._container, map);
         map.on(L.Draw.Event.CREATED, function(e) {
-            const type = e.layerType
-            const layer = e.layer
+            const type = e.layerType;
+            const layer = e.layer;
 
             if (type === 'marker') {
-                const { lat, lng } = e.layer._latlng
+                const { lat, lng } = e.layer._latlng;
                 setPathNodes(pre => {
-                    layer.bindPopup(`node ${pre.length + 1}`)
-                    return [...pre, L.latLng(lat, lng)]
-                })
+                    layer.bindPopup(`node ${pre.length + 1}`);
+                    return [...pre, L.latLng(lat, lng)];
+                });
             }
-            editableLayers.addLayer(layer)
-            const geo = L.Util.transform(e.layer, L.CRS.TianDiTu_WGS84, L.CRS.EPSG4326)
+            editableLayers.addLayer(layer);
+            const geo = L.Util.transform(e.layer, L.CRS.TianDiTu_WGS84, L.CRS.EPSG4326);
 
             const param = new SuperMap.QueryByGeometryParameters({
                 // queryParams: { name: "bus_route@bus_route" },
                 queryParams: { name: 'POI@whu_map' },
                 geometry: geo
-            })
+            });
 
             L.supermap.queryService(url).queryByGeometry(param, serviceResult => {
-                const result = serviceResult.result
-                const features = L.Util.transform(result.recordsets[0].features, L.CRS.EPSG4326, L.CRS.TianDiTu_WGS84)
+                const result = serviceResult.result;
+                const features = L.Util.transform(result.recordsets[0].features, L.CRS.EPSG4326, L.CRS.TianDiTu_WGS84);
                 L.geoJSON(features, {
                     onEachFeature: (feature, layer) => {
-                        layer.bindPopup(`${feature.properties.name || 'undefined'}`)
+                        layer.bindPopup(`${feature.properties.name || 'undefined'}`);
                     }
-                }).addTo(markerLayers)
-            })
-        })
+                }).addTo(markerLayers);
+            });
+        });
 
         function handleMapEvent(div, map) {
             if (!div || !map) {
-                return
+                return;
             }
             div.addEventListener('mouseover', function() {
-                map.scrollWheelZoom.disable()
-                map.doubleClickZoom.disable()
-            })
+                map.scrollWheelZoom.disable();
+                map.doubleClickZoom.disable();
+            });
             div.addEventListener('mouseout', function() {
-                map.scrollWheelZoom.enable()
-                map.doubleClickZoom.enable()
-            })
+                map.scrollWheelZoom.enable();
+                map.doubleClickZoom.enable();
+            });
         }
 
         const tiandituLayer = L.supermap
@@ -129,21 +129,21 @@ export default function BaseMap(props) {
                 layerType: BasemapType.vec,
                 key: '1d109683f4d84198e37a38c442d68311'
             })
-            .addTo(map)
+            .addTo(map);
         const tiandituLayerImg = L.supermap
             .tiandituTileLayer({
                 layerType: BasemapType.img,
                 key: '1d109683f4d84198e37a38c442d68311'
             })
-            .addTo(map)
+            .addTo(map);
         const tiandituLabelLayer = L.supermap
             .tiandituTileLayer({
                 layerType: tiandituType,
                 isLabel: true,
                 key: '1d109683f4d84198e37a38c442d68311'
             })
-            .addTo(map)
-        const whuLayer = L.supermap.tiledMapLayer(url).addTo(map)
+            .addTo(map);
+        const whuLayer = L.supermap.tiledMapLayer(url).addTo(map);
 
         setLayersList([
             tiandituLayer._leaflet_id,
@@ -151,18 +151,18 @@ export default function BaseMap(props) {
             whuLayer._leaflet_id,
             editableLayers._leaflet_id,
             markerLayers._leaflet_id
-        ])
+        ]);
 
         const baseMaps = {
             img: tiandituLayerImg,
             vec: tiandituLayer
-        }
+        };
         const overlayMaps = {
             campas: whuLayer
-        }
+        };
         // 添加控件
-        L.control.scale().addTo(map)
-        L.control.layers(baseMaps, overlayMaps).addTo(map)
+        L.control.scale().addTo(map);
+        L.control.layers(baseMaps, overlayMaps).addTo(map);
 
         // 数据流部分
         // const popup = L.popup({
@@ -235,22 +235,22 @@ export default function BaseMap(props) {
         //     count += 3
         // }
         //模拟实时数据  end
-    }, [])
+    }, []);
 
     const handleRemove = () => {
         baseMap.eachLayer(layer => {
-            console.log(layersList)
-            const needRemove = !layersList.includes(layer._leaflet_id)
-            needRemove && layer.remove()
-        })
+            console.log(layersList);
+            const needRemove = !layersList.includes(layer._leaflet_id);
+            needRemove && layer.remove();
+        });
         // editableLayer.remove();
         // markerLayer.remove();
-    }
+    };
 
     const handleFindPath = () => {
-        console.log(pathNodes)
+        console.log(pathNodes);
 
-        const findPathService = L.supermap.networkAnalystService(serviceUrl)
+        const findPathService = L.supermap.networkAnalystService(serviceUrl);
         const resultSetting = new SuperMap.TransportationAnalystResultSetting({
             returnEdgeFeatures: true,
             returnEdgeGeometry: true,
@@ -260,28 +260,28 @@ export default function BaseMap(props) {
             returnNodeIDs: true,
             returnPathGuides: true,
             returnRoutes: true
-        })
+        });
         const analystParameter = new SuperMap.TransportationAnalystParameter({
             resultSetting: resultSetting,
             //   weightFieldName: "SmLength",
             weightFieldName: 'SmLength'
-        })
+        });
         const findPathParameter = new SuperMap.FindPathParameters({
             isAnalyzeById: false,
             nodes: pathNodes,
             parameter: analystParameter
-        })
+        });
         const myIcon = L.icon({
             iconUrl: '../../assets/image/walk.png',
             iconSize: [20, 20]
-        })
+        });
         //进行查找
         findPathService.findPath(findPathParameter, serviceResult => {
-            const result = serviceResult.result
-            console.log(123123, serviceResult)
+            const result = serviceResult.result;
+            console.log(123123, serviceResult);
             result.pathList.map(function(result) {
-                L.geoJSON(result.route, { color: 'red' }).addTo(baseMap)
-                setBufferRoute(result.route)
+                L.geoJSON(result.route, { color: 'red' }).addTo(baseMap);
+                setBufferRoute(result.route);
                 // L.geoJSON(result.pathGuideItems, {
                 //   pointToLayer: function (geoPoints, latlng) {
                 //     L.marker(latlng).addTo(map);
@@ -296,23 +296,23 @@ export default function BaseMap(props) {
                 //     return false;
                 //   },
                 // }).addTo(map);
-            })
-            setPathNodes([])
-        })
-    }
+            });
+            setPathNodes([]);
+        });
+    };
 
     const handleShow = () => {
         editableLayer.eachLayer(layer => {
-            console.log(layer)
+            console.log(layer);
             // editableLayer.removeLayer(layer)
-        })
-    }
+        });
+    };
 
     const handleBuffer = () => {
-        console.log(bufferRoute)
+        console.log(bufferRoute);
 
         // const roadLine = L.polyline(pointsList, {color: 'red'}).addTo(map);
-        const bufferAnalystService = L.supermap.spatialAnalystService(bufferUrl)
+        const bufferAnalystService = L.supermap.spatialAnalystService(bufferUrl);
         // //对生成的线路进行缓冲区分析
         const geoBufferAnalystParams = new SuperMap.GeometryBufferAnalystParameters({
             sourceGeometry: bufferRoute,
@@ -323,23 +323,23 @@ export default function BaseMap(props) {
                 semicircleLineSegment: 10,
                 radiusUnit: SuperMap.BufferRadiusUnit.MILLIMETER
             })
-        })
+        });
         bufferAnalystService.bufferAnalysis(geoBufferAnalystParams, serviceResult => {
-            console.log(serviceResult)
-            const resultLayer = L.geoJSON(serviceResult.result.resultGeometry).addTo(baseMap)
+            console.log(serviceResult);
+            const resultLayer = L.geoJSON(serviceResult.result.resultGeometry).addTo(baseMap);
             // //查询出缓冲区内信号影响范围内的工厂
-            const queryService = L.supermap.queryService(url)
+            const queryService = L.supermap.queryService(url);
             const queryByGeometryParameters = new SuperMap.QueryByGeometryParameters({
                 queryParams: [new SuperMap.FilterParameter({ name: 'POI@whu_map' })],
                 geometry: resultLayer,
                 spatialQueryMode: SuperMap.SpatialQueryMode.INTERSECT
-            })
+            });
             queryService.queryByGeometry(queryByGeometryParameters, serviceResult => {
-                var result = serviceResult.result
-                const resultLayer1 = L.geoJSON(result.recordsets[0].features).addTo(baseMap)
-            })
-        })
-    }
+                var result = serviceResult.result;
+                const resultLayer1 = L.geoJSON(result.recordsets[0].features).addTo(baseMap);
+            });
+        });
+    };
 
     return (
         <div>
@@ -349,7 +349,7 @@ export default function BaseMap(props) {
                         className='base-button'
                         onClick={() => {
                             // query(baseMap)
-                            setVisible(true)
+                            setVisible(true);
                         }}>
                         {t('数据查询')}
                     </Button>
@@ -366,5 +366,5 @@ export default function BaseMap(props) {
             </div>
             <SearchDataModel visible={visible} onCancel={() => setVisible(false)} map={baseMap} />
         </div>
-    )
+    );
 }

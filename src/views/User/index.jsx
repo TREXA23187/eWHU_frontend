@@ -1,29 +1,29 @@
-import React, { useState, useRef } from 'react'
-import { Layout, Divider, Table, Input, Button, Space, message } from 'antd'
-import Highlighter from 'react-highlight-words'
-import { SearchOutlined, UserAddOutlined } from '@ant-design/icons'
-import { useRequest } from '@umijs/hooks'
-import { getUserList, deleteUser } from '@/api/user'
-import AddUserModel from '@/components/User/add-user-modal'
-import { ls } from '@/utils/storage'
+import React, { useState, useRef } from 'react';
+import { Layout, Divider, Table, Input, Button, Space, message } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined, UserAddOutlined } from '@ant-design/icons';
+import { useRequest } from '@umijs/hooks';
+import { getUserList, deleteUser } from '@/api/user';
+import AddUserModel from '@/components/User/add-user-modal';
+import { ls } from '@/utils/storage';
 
-const onClick = ({ key }) => {}
+const onClick = ({ key }) => {};
 
 export default function User() {
-    const [searchText, setSearchText] = useState('')
-    const [searchedColumn, setSearchedColumn] = useState('')
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
 
-    const [visible, setVisible] = useState(false)
-    const [userData, setUserData] = useState({})
-    const [modalType, setModalType] = useState('add') // add || edit
+    const [visible, setVisible] = useState(false);
+    const [userData, setUserData] = useState({});
+    const [modalType, setModalType] = useState('add'); // add || edit
 
-    const inputRef = useRef(null)
+    const inputRef = useRef(null);
 
     const { data: userList, refresh, run } = useRequest(async () => {
-        const res = await getUserList()
+        const res = await getUserList();
 
-        return res.data.sort((a, b) => b.role - a.role)
-    })
+        return res.data.sort((a, b) => b.role - a.role);
+    });
 
     const getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -52,9 +52,9 @@ export default function User() {
                         type='link'
                         size='small'
                         onClick={() => {
-                            confirm({ closeDropdown: false })
-                            setSearchText(selectedKeys[0])
-                            setSearchedColumn(dataIndex)
+                            confirm({ closeDropdown: false });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
                         }}>
                         Filter
                     </Button>
@@ -71,7 +71,7 @@ export default function User() {
                 : '',
         onFilterDropdownVisibleChange: visible => {
             if (visible) {
-                setTimeout(() => inputRef.current.select(), 100)
+                setTimeout(() => inputRef.current.select(), 100);
             }
         },
         render: text =>
@@ -85,18 +85,18 @@ export default function User() {
             ) : (
                 text
             )
-    })
+    });
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
-        confirm()
-        setSearchText(selectedKeys[0])
-        setSearchedColumn(dataIndex)
-    }
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
 
     const handleReset = clearFilters => {
-        clearFilters()
-        setSearchText('')
-    }
+        clearFilters();
+        setSearchText('');
+    };
 
     const columns = [
         {
@@ -117,7 +117,7 @@ export default function User() {
             key: 'phone_number',
             ...getColumnSearchProps('phone_number'),
             render(value) {
-                return value || '-'
+                return value || '-';
             }
         },
         {
@@ -126,7 +126,7 @@ export default function User() {
             key: 'email',
             ...getColumnSearchProps('email'),
             render(value) {
-                return value || '-'
+                return value || '-';
             }
         },
         {
@@ -139,8 +139,8 @@ export default function User() {
                     0: '普通用户',
                     1: '管理员',
                     2: '超级管理员'
-                }
-                return roles[value]
+                };
+                return roles[value];
             }
         },
         {
@@ -149,22 +149,22 @@ export default function User() {
             key: 'remark',
             ...getColumnSearchProps('remark'),
             render(value) {
-                return value || '-'
+                return value || '-';
             }
         },
         {
             title: '操作',
             render(rol) {
-                const disabled = ls.get('user').role <= rol.role ? true : false
+                const disabled = ls.get('user').role <= rol.role ? true : false;
                 return (
                     <div>
                         <Button
                             type='text'
                             style={{ color: disabled ? '' : 'blue' }}
                             onClick={() => {
-                                setUserData(rol)
-                                setModalType('edit')
-                                setVisible(true)
+                                setUserData(rol);
+                                setModalType('edit');
+                                setVisible(true);
                             }}
                             disabled={disabled}>
                             编辑
@@ -173,18 +173,18 @@ export default function User() {
                             type='text'
                             danger
                             onClick={async () => {
-                                const res = await deleteUser(rol.id)
-                                message.success(res.message)
-                                refresh()
+                                const res = await deleteUser(rol.id);
+                                message.success(res.message);
+                                refresh();
                             }}
                             disabled={disabled}>
                             删除
                         </Button>
                     </div>
-                )
+                );
             }
         }
-    ]
+    ];
     return (
         <Layout className='animated fadeIn'>
             <div className='base-style'>
@@ -192,9 +192,9 @@ export default function User() {
                 <Space style={{ marginBottom: 16 }}>
                     <Button
                         onClick={() => {
-                            setVisible(true)
-                            setModalType('add')
-                            setUserData({})
+                            setVisible(true);
+                            setModalType('add');
+                            setUserData({});
                         }}>
                         <UserAddOutlined />
                         添加用户
@@ -208,10 +208,10 @@ export default function User() {
                 type={modalType}
                 type={modalType}
                 onCancel={() => {
-                    setVisible(false)
-                    refresh()
+                    setVisible(false);
+                    refresh();
                 }}
             />
         </Layout>
-    )
+    );
 }

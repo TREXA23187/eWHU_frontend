@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
-import { Layout, Input, Form, Button, Divider, message, notification } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { ls } from '@/utils/storage'
-import { encrypt } from '@/utils/crypt'
-import { login } from '@/api/user'
-import '@/style/view-style/login.less'
+import React, { useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Layout, Input, Form, Button, Divider, message, notification } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { ls } from '@/utils/storage';
+import { encrypt } from '@/utils/crypt';
+import { login } from '@/api/user';
+import '@/style/view-style/login.less';
 
 const Login = props => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const handleSubmitFinish = async values => {
-        setLoading(true)
-        let { username, password } = values
-        const key = '751f621ea5c8f930'
-        const iv = '2624750004598718'
-        const res = await login({ username, password: encrypt(password, key, iv) })
+        setLoading(true);
+        let { username, password } = values;
+        const key = '751f621ea5c8f930';
+        const iv = '2624750004598718';
+        const res = await login({ username, password: encrypt(password, key, iv) });
 
         if (res.code === 0) {
-            ls.set('user', res.data.user_info)
-            setLoading(false)
-            message.success('登录成功!')
+            ls.set('user', res.data.user_info);
+            setLoading(false);
+            message.success('登录成功!');
             setTimeout(() => {
-                props.history.push('/')
-            }, 1000)
+                props.history.push('/');
+            }, 1000);
         } else {
-            setLoading(false)
-            message.success(res.message)
+            setLoading(false);
+            message.success(res.message);
         }
-    }
+    };
 
     useEffect(() => {
         notification.open({
             message: '欢迎使用e武大管理平台',
             duration: null
             // description: '账号 admin(管理员) 其他(游客) 密码随意'
-        })
+        });
         return () => {
-            notification.destroy()
-        }
-    }, [])
+            notification.destroy();
+        };
+    }, []);
 
     return (
         <Layout className='login animated fadeIn'>
@@ -73,7 +73,7 @@ const Login = props => {
                 </div>
             </div>
         </Layout>
-    )
-}
+    );
+};
 
-export default withRouter(Login)
+export default withRouter(Login);

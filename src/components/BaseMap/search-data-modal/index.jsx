@@ -1,28 +1,28 @@
-import React from 'react'
-import { Modal, Button, Form, Input, Select } from 'antd'
-import { useTranslation } from 'react-i18next'
-import { query } from '@/utils/map'
+import React from 'react';
+import { Modal, Button, Form, Input, Select } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { query } from '@/utils/map';
 
-const Option = Select.Option
+const Option = Select.Option;
 
 export default function SearchDataModel(props) {
-    const { map, visible, onCancel } = props
-    const { t, i18n } = useTranslation()
+    const { map, visible, onCancel } = props;
+    const { t, i18n } = useTranslation();
 
     const layout = {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 }
-    }
+    };
 
     const onFinish = async values => {
-        const { dataName, dataFilter } = values
-        await query(map, dataName, dataFilter)
-        onCancel()
-    }
+        const { dataName, dataFilter } = values;
+        await query(map, dataName, dataFilter);
+        onCancel();
+    };
 
     const handleChange = value => {
-        console.log(`selected ${value}`)
-    }
+        console.log(`selected ${value}`);
+    };
 
     return (
         <Modal title={t('数据查询')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
@@ -49,5 +49,5 @@ export default function SearchDataModel(props) {
                 </Form.Item>
             </Form>
         </Modal>
-    )
+    );
 }

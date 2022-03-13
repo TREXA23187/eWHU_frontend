@@ -1,9 +1,9 @@
-import React from 'react'
-import './index.less'
-import BaseMap from '@/components/BaseMap'
+import React from 'react';
+import './index.less';
+import BaseMap from '@/components/BaseMap';
 
 const MapView = () => {
-    return <BaseMap />
-}
+    return <BaseMap />;
+};
 
-export default MapView
+export default MapView;

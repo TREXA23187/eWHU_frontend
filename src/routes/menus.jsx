@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     HomeOutlined,
     AppstoreOutlined,
@@ -9,7 +9,7 @@ import {
     BarsOutlined,
     UserOutlined,
     FundViewOutlined
-} from '@ant-design/icons'
+} from '@ant-design/icons';
 
 const menus = [
     {
@@ -109,7 +109,7 @@ const menus = [
     //         { title: '示例2', key: '/test/example2', icon: '' }
     //     ]
     // }
-]
+];
 
 export const routesNameMap = {
     '/index': '首页',
@@ -123,6 +123,6 @@ export const routesNameMap = {
     '/map': '地图',
     '/about': '关于',
     '/user': '用户管理'
-}
+};
 
-export default menus
+export default menus;

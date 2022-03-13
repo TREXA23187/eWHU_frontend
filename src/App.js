@@ -1,17 +1,17 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
-import AsyncLoadable from '@/utils/AsyncLoadable'
-import 'animate.css'
-import './style/base.less'
-import './style/App.less'
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import AsyncLoadable from '@/utils/AsyncLoadable';
+import 'animate.css';
+import './style/base.less';
+import './style/App.less';
 
 // 公共模块
-const DefaultLayout = AsyncLoadable(() => import(/* webpackChunkName: 'default' */ './containers'))
+const DefaultLayout = AsyncLoadable(() => import(/* webpackChunkName: 'default' */ './containers'));
 
 // 基础页面
-const View404 = AsyncLoadable(() => import(/* webpackChunkName: '404' */ './views/Others/404'))
-const View500 = AsyncLoadable(() => import(/* webpackChunkName: '500' */ './views/Others/500'))
-const Login = AsyncLoadable(() => import(/* webpackChunkName: 'login' */ './views/Login'))
+const View404 = AsyncLoadable(() => import(/* webpackChunkName: '404' */ './views/Others/404'));
+const View500 = AsyncLoadable(() => import(/* webpackChunkName: '500' */ './views/Others/500'));
+const Login = AsyncLoadable(() => import(/* webpackChunkName: 'login' */ './views/Login'));
 
 const App = () => (
     <Router>
@@ -23,6 +23,6 @@ const App = () => (
             <Route component={DefaultLayout} />
         </Switch>
     </Router>
-)
+);
 
-export default App
+export default App;

@@ -1,33 +1,33 @@
-import React, { useEffect } from 'react'
-import { Modal, Button, Form, Input, Select, message } from 'antd'
-import { useTranslation } from 'react-i18next'
-import { addUser, changeUserInfo } from '@/api/user'
+import React, { useEffect } from 'react';
+import { Modal, Button, Form, Input, Select, message } from 'antd';
+import { useTranslation } from 'react-i18next';
+import { addUser, changeUserInfo } from '@/api/user';
 
-const Option = Select.Option
+const Option = Select.Option;
 
 export default function AddUserModel(props) {
-    const { data, type, visible, onCancel } = props
-    const { t } = useTranslation()
+    const { data, type, visible, onCancel } = props;
+    const { t } = useTranslation();
 
     const layout = {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 }
-    }
+    };
 
     const onFinish = async values => {
         if (type === 'add') {
-            const res = await addUser(values)
-            message.success(res.message)
+            const res = await addUser(values);
+            message.success(res.message);
         } else {
-            const res = await changeUserInfo({ id: data.id, ...values })
-            message.success(res.message)
+            const res = await changeUserInfo({ id: data.id, ...values });
+            message.success(res.message);
         }
-        onCancel()
-    }
+        onCancel();
+    };
 
     const handleChange = value => {
-        console.log(`selected ${value}`)
-    }
+        console.log(`selected ${value}`);
+    };
 
     return (
         <Modal title={t('添加用户')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
@@ -69,5 +69,5 @@ export default function AddUserModel(props) {
                 </Form.Item>
             </Form>
         </Modal>
-    )
+    );
 }
