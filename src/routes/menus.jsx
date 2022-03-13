@@ -5,7 +5,7 @@ import {
     CompassOutlined,
     FormOutlined,
     PieChartOutlined,
-    PaperClipOutlined,
+    TeamOutlined,
     BarsOutlined,
     UserOutlined,
     FundViewOutlined
@@ -15,43 +15,46 @@ const menus = [
     {
         key: '/index',
         title: '首页',
-        icon: <HomeOutlined />,
-        auth: [1]
+        icon: <HomeOutlined />
+    },
+    {
+        key: '/user',
+        title: '用户管理',
+        icon: <TeamOutlined />,
+        auth: [1, 2]
     },
     {
         title: '通用',
         key: '/public',
         icon: <AppstoreOutlined />,
-        auth: [1],
         subs: [
             { title: '按钮', key: '/public/button', icon: '' },
             { title: '图标', key: '/public/icon', icon: '' }
         ]
     },
-    {
-        title: '导航',
-        key: '/nav',
-        icon: <CompassOutlined />,
-        subs: [
-            { title: '下拉菜单', key: '/nav/dropdown', icon: '' },
-            { title: '导航菜单', key: '/nav/menu', icon: '' },
-            { title: '步骤条', key: '/nav/steps', icon: '' }
-        ]
-    },
-    {
-        title: '表单',
-        key: '/form',
-        icon: <FormOutlined />,
-        subs: [
-            { title: '基础表单', key: '/form/base-form', icon: '' },
-            { title: '步骤表单', key: '/form/step-form', icon: '' }
-        ]
-    },
+    // {
+    //     title: '导航',
+    //     key: '/nav',
+    //     icon: <CompassOutlined />,
+    //     subs: [
+    //         { title: '下拉菜单', key: '/nav/dropdown', icon: '' },
+    //         { title: '导航菜单', key: '/nav/menu', icon: '' },
+    //         { title: '步骤条', key: '/nav/steps', icon: '' }
+    //     ]
+    // },
+    // {
+    //     title: '表单',
+    //     key: '/form',
+    //     icon: <FormOutlined />,
+    //     subs: [
+    //         { title: '基础表单', key: '/form/base-form', icon: '' },
+    //         { title: '步骤表单', key: '/form/step-form', icon: '' }
+    //     ]
+    // },
     {
         key: '/map',
         title: '地图',
-        icon: <PieChartOutlined />,
-        auth: [1]
+        icon: <CompassOutlined />
     },
     // {
     //     title: '展示',
@@ -94,9 +97,8 @@ const menus = [
     {
         title: '关于',
         key: '/about',
-        icon: <UserOutlined />,
-        auth: [1]
-    },
+        icon: <UserOutlined />
+    }
     // {
     //     title: '示例',
     //     key: '/test',
@@ -118,8 +120,9 @@ export const routesNameMap = {
     '/nav/steps': '步骤条',
     '/form/base-form': '基础表单',
     '/form/step-form': '步骤表单',
-    '/map':'地图',
-    '/about':'关于'
+    '/map': '地图',
+    '/about': '关于',
+    '/user': '用户管理'
 }
 
 export default menus

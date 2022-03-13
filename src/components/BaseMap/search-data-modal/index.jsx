@@ -6,13 +6,18 @@ import { query } from '@/utils/map'
 const Option = Select.Option
 
 export default function SearchDataModel(props) {
-    const { map, visible, onClose } = props
+    const { map, visible, onCancel } = props
     const { t, i18n } = useTranslation()
+
+    const layout = {
+        labelCol: { span: 6 },
+        wrapperCol: { span: 14 }
+    }
 
     const onFinish = async values => {
         const { dataName, dataFilter } = values
         await query(map, dataName, dataFilter)
-        onClose()
+        onCancel()
     }
 
     const handleChange = value => {
@@ -20,12 +25,9 @@ export default function SearchDataModel(props) {
     }
 
     return (
-        <Modal title={t('数据查询')} visible={visible} destroyOnClose okText={'查询'} footer={null}>
-            <Form initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
-                <Form.Item
-                    label='数据名称'
-                    name='dataName'
-                    rules={[{ required: true, message: 'Please input your username!' }]}>
+        <Modal title={t('数据查询')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
+            <Form {...layout} initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
+                <Form.Item label='数据名称' name='dataName' rules={[{ required: true, message: '请输入数据名称' }]}>
                     <Select style={{ width: 120 }} onChange={handleChange}>
                         <Option value='POI'>POI</Option>
                         <Option value='学校范围'>学校范围</Option>
@@ -33,10 +35,7 @@ export default function SearchDataModel(props) {
                     </Select>
                 </Form.Item>
 
-                <Form.Item
-                    label='sql语句'
-                    name='dataFilter'
-                    rules={[{ required: true, message: 'Please input your password!' }]}>
+                <Form.Item label='sql语句' name='dataFilter' rules={[{ required: true, message: '请输sql语句' }]}>
                     <Input placeholder='例如 id = 213' />
                 </Form.Item>
 
@@ -44,7 +43,7 @@ export default function SearchDataModel(props) {
                     <Button type='primary' htmlType='submit'>
                         {t('查询')}
                     </Button>
-                    <Button style={{ marginLeft: 12 }} onClick={onClose}>
+                    <Button style={{ marginLeft: 12 }} onClick={onCancel}>
                         {t('取消')}
                     </Button>
                 </Form.Item>

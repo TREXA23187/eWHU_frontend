@@ -9,6 +9,5 @@ import { ls } from '@/utils/storage'
 //     <App />
 //   </LocaleProvider>
 // );
-console.log(ls.get('lang'))
 
 ReactDOM.render(<App />, document.getElementById('root'))

@@ -15,17 +15,13 @@ const { Content } = Layout
 const { TabPane } = Tabs
 
 const getMenu = menu => {
-    let newMenu,
-        auth = ls.get('user').auth
-    if (!auth) {
-        return menu
-    } else {
-        newMenu = menu.filter(res => res.auth && res.auth.indexOf(auth) !== -1)
-        return newMenu
-    }
+    const auth = ls.get('user')?.role || 0
+    const newMenu = menu.filter(res => !res.auth || res.auth.indexOf(auth) !== -1)
+
+    return newMenu
 }
 
-const DefaultLayout = props => {
+export default function DefaultLayout(props) {
     useEffect(() => {
         ss.set('tabList', [{ title: '首页', content: '', key: '/index', closable: false }])
     }, [])
@@ -39,7 +35,7 @@ const DefaultLayout = props => {
         }
     })
 
-    let auth = ls.get('user')?.auth || ''
+    let auth = ls.get('user')?.role || 0
 
     const [menuToggle, setMenuToggle] = useState(false)
     const [panes, setPanes] = useState(
@@ -122,12 +118,9 @@ const DefaultLayout = props => {
                                     path={item.path}
                                     exact={item.exact}
                                     render={props =>
-                                        !auth ? (
-                                            <item.component />
-                                        ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
+                                        !item.auth || item.auth.indexOf(auth) !== -1 ? (
                                             <item.component />
                                         ) : (
-                                            // 这里也可以跳转到 403 页面
                                             <Redirect to='/404' {...props} />
                                         )
                                     }></Route>
@@ -142,4 +135,3 @@ const DefaultLayout = props => {
         </Layout>
     )
 }
-export default DefaultLayout

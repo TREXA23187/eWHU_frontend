@@ -9,9 +9,8 @@ import { SuperMap } from '@supermap/iclient-leaflet'
 import { BasemapType } from '@/constants/basemap'
 // import walkIcon from "../../assets/image/walk.png"
 import { Button, Form, Input, Select, Alert, Result } from 'antd'
-import { query } from '@/utils/map'
 
-import SearchDataModel from './search-data-model'
+import SearchDataModel from './search-data-modal'
 
 const baseUrl = '8.134.215.136'
 
@@ -365,7 +364,7 @@ export default function BaseMap(props) {
                 <button onClick={handleFindPath}>match</button>
                 <button onClick={handleBuffer}>buffer</button>
             </div>
-            <SearchDataModel visible={visible} onClose={() => setVisible(false)} map={baseMap} />
+            <SearchDataModel visible={visible} onCancel={() => setVisible(false)} map={baseMap} />
         </div>
     )
 }

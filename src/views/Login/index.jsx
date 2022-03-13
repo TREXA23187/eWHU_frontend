@@ -16,7 +16,6 @@ const Login = props => {
         const key = '751f621ea5c8f930'
         const iv = '2624750004598718'
         const res = await login({ username, password: encrypt(password, key, iv) })
-        console.log(res)
 
         if (res.code === 0) {
             ls.set('user', res.data.user_info)
@@ -29,10 +28,6 @@ const Login = props => {
             setLoading(false)
             message.success(res.message)
         }
-    }
-
-    const handleSubmitFinishFailed = errorInfo => {
-        console.log('Failed:', errorInfo)
     }
 
     useEffect(() => {
@@ -52,7 +47,7 @@ const Login = props => {
                 <div className='login-form'>
                     <h3>后台管理系统</h3>
                     <Divider />
-                    <Form onFinish={handleSubmitFinish} onFinishFailed={handleSubmitFinishFailed}>
+                    <Form onFinish={handleSubmitFinish}>
                         <Form.Item
                             // label="Username"
                             name='username'
