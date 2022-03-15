@@ -359,13 +359,13 @@ export default function BaseMap(props) {
                         //     findPath(baseMap, pathNodes, callback);
                         // }}>
                         onClick={handleFindPath}>
-                        路径查询
+                        {t('路径查询')}
                     </Button>
                     <Button className='base-button' onClick={handleBuffer}>
-                        缓冲区分析
+                        {t('缓冲区分析')}
                     </Button>
                     <Button className='base-button' danger onClick={handleRemove}>
-                        清空图层
+                        {t('清空图层')}
                     </Button>
                 </div>
                 <div id='map' ref={mapRef}></div>

@@ -23,7 +23,10 @@ export default function SearchDataModel(props) {
     return (
         <Modal title={t('数据查询')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
             <Form {...layout} initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
-                <Form.Item label='数据名称' name='dataName' rules={[{ required: true, message: '请输入数据名称' }]}>
+                <Form.Item
+                    label={t('数据名称')}
+                    name='dataName'
+                    rules={[{ required: true, message: t('请输入数据名称') }]}>
                     <Select style={{ width: 120 }}>
                         <Option value='POI'>POI</Option>
                         <Option value='boundary'>学校范围</Option>
@@ -31,8 +34,11 @@ export default function SearchDataModel(props) {
                     </Select>
                 </Form.Item>
 
-                <Form.Item label='sql语句' name='dataFilter' rules={[{ required: true, message: '请输sql语句' }]}>
-                    <Input placeholder='例如 id = 213' />
+                <Form.Item
+                    label={t('SQL语句')}
+                    name='dataFilter'
+                    rules={[{ required: true, message: t('请输SQL语句') }]}>
+                    <Input placeholder={t('例如 name = "自强超市"')} />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

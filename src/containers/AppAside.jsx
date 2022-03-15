@@ -12,17 +12,19 @@ import {
 import SideMenu from '@/components/SideMenu';
 import { changeLocale } from '@/locale/utils';
 import { ls } from '@/utils/storage';
+import { useTranslation } from 'react-i18next';
 
 const { Sider } = Layout;
 
 const userInfo = ls.get('user');
 
 const AppAside = props => {
+    const { t } = useTranslation();
     let { menuToggle, menu, updateTabs, avatar, loginOut, menuClick } = props;
 
     const userMenu = (
         <Menu style={{ width: 182 }}>
-            <Menu.ItemGroup title='用户设置'>
+            <Menu.ItemGroup title={t('用户设置')}>
                 <Menu.Divider />
                 <Menu.Item>
                     <EditOutlined /> 个人设置
@@ -34,7 +36,7 @@ const AppAside = props => {
                     title={
                         <span>
                             <SettingOutlined style={{ marginRight: 5 }} />
-                            <span>语言设置</span>
+                            <span>{t('语言设置')}</span>
                         </span>
                     }>
                     <Menu.Item onClick={() => changeLocale('zh')}>简体中文</Menu.Item>
@@ -44,7 +46,7 @@ const AppAside = props => {
             <Menu.Divider />
             <Menu.Item>
                 <span onClick={loginOut}>
-                    <LogoutOutlined /> 退出登录
+                    <LogoutOutlined /> {t('退出登录')}
                 </span>
             </Menu.Item>
         </Menu>

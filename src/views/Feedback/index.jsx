@@ -8,13 +8,6 @@ import moment from 'moment';
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 
-const problemType = {
-    logistics: '后勤报修',
-    network: '网络报修',
-    suggestion: '优化建议',
-    other: '其他'
-};
-
 export default function FeedbackView() {
     const { t } = useTranslation();
     // const [date, setDate] = useState([moment('2022-03-02'), moment('2022-04-29')]);
@@ -34,9 +27,9 @@ export default function FeedbackView() {
 
     const columns = [
         {
-            title: t('姓名'),
-            dataIndex: 'name',
-            key: 'name'
+            title: t('用户名'),
+            dataIndex: 'username',
+            key: 'username'
         },
 
         {
@@ -112,7 +105,7 @@ export default function FeedbackView() {
     const data = [
         {
             key: '1',
-            name: 'John Brown',
+            username: 'John Brown',
             age: 32,
             address: 'New York No. 1 Lake Park',
             type: ['nice', 'developer'],
@@ -122,7 +115,7 @@ export default function FeedbackView() {
         },
         {
             key: '2',
-            name: 'Jim Green',
+            username: 'Jim Green',
             age: 42,
             address: 'London No. 1 Lake Park',
             type: ['loser'],
@@ -132,7 +125,7 @@ export default function FeedbackView() {
         },
         {
             key: '3',
-            name: 'Joe Black',
+            username: 'Joe Black',
             age: 32,
             address: 'Sidney No. 1 Lake Park',
             type: ['cool', 'teacher'],
@@ -141,6 +134,13 @@ export default function FeedbackView() {
             type: 'other'
         }
     ];
+
+    const problemType = {
+        logistics: t('后勤报修'),
+        network: t('网络报修'),
+        suggestion: t('优化建议'),
+        other: t('其他')
+    };
 
     const onChange = (value, dateString) => {
         console.log('Selected Time: ', value);
@@ -152,22 +152,22 @@ export default function FeedbackView() {
         <Layout>
             <div className='base-style'>
                 <Space style={{ marginBottom: 16 }}>
-                    <div style={{ marginLeft: 2 }}>
-                        <span className='label'>问题类型:</span>
+                    <div style={{ marginLeft: 2, minWidth: 195 }}>
+                        <span className='label'>{t('问题类型')}:</span>
                         <Select style={{ width: 120 }} defaultValue='all' style={{ width: 100, height: 30 }}>
-                            <Option value='all'>全部</Option>
-                            <Option value='logistics'>后勤报修</Option>
-                            <Option value='network'>网络报修</Option>
-                            <Option value='suggestion'>优化建议</Option>
-                            <Option value='other'>其他</Option>
+                            <Option value='all'>{t('全部')}</Option>
+                            <Option value='logistics'>{t('后勤报修')}</Option>
+                            <Option value='network'>{t('网络报修')}</Option>
+                            <Option value='suggestion'>{t('优化建议')}</Option>
+                            <Option value='other'>{t('其他')}</Option>
                         </Select>
                     </div>
-                    <div style={{ marginLeft: 550 }}>
-                        <span className='label'>姓名:</span>
-                        <Input style={{ width: 150 }}></Input>
+                    <div style={{ marginLeft: 2, minWidth: 220 }}>
+                        <span className='label'>{t('姓名')}:</span>
+                        <Input placeholder={t('搜索用户')} style={{ width: 150 }}></Input>
                     </div>
-                    <div style={{ marginLeft: 2 }}>
-                        <span className='label'>反馈时间:</span>
+                    <div style={{ marginLeft: 2, minWidth: 450 }}>
+                        <span className='label'>{t('反馈时间')}:</span>
                         <RangePicker onChange={onChange} value={date} placeholder={[t('开始时间'), t('结束时间')]} />
                     </div>
                 </Space>

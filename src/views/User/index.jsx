@@ -6,10 +6,11 @@ import { useRequest } from '@umijs/hooks';
 import { getUserList, deleteUser } from '@/api/user';
 import AddUserModel from '@/components/User/add-user-modal';
 import { ls } from '@/utils/storage';
-
-const onClick = ({ key }) => {};
+import { useTranslation } from 'react-i18next';
 
 export default function User() {
+    const { t } = useTranslation();
+
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
 
@@ -100,19 +101,19 @@ export default function User() {
 
     const columns = [
         {
-            title: '用户名',
+            title: t('用户名'),
             dataIndex: 'username',
             key: 'username',
             ...getColumnSearchProps('usernamename')
         },
         {
-            title: '学号/工号',
+            title: t('学号/工号'),
             dataIndex: 'school_id',
             key: 'school_id',
             ...getColumnSearchProps('school_id')
         },
         {
-            title: '手机号',
+            title: t('手机号'),
             dataIndex: 'phone_number',
             key: 'phone_number',
             ...getColumnSearchProps('phone_number'),
@@ -121,7 +122,7 @@ export default function User() {
             }
         },
         {
-            title: '邮箱',
+            title: t('邮箱'),
             dataIndex: 'email',
             key: 'email',
             ...getColumnSearchProps('email'),
@@ -130,7 +131,7 @@ export default function User() {
             }
         },
         {
-            title: '角色',
+            title: t('角色'),
             dataIndex: 'role',
             key: 'role',
             ...getColumnSearchProps('role'),
@@ -138,29 +139,29 @@ export default function User() {
                 const roles = {
                     0: {
                         key: 'user',
-                        tag: '普通用户',
+                        tag: t('普通用户'),
                         color: 'green'
                     },
                     1: {
                         key: 'admin',
-                        tag: '管理员',
+                        tag: t('管理员'),
                         color: 'geekblue'
                     },
                     2: {
                         key: 'super',
-                        tag: '超级管理员',
+                        tag: t('超级管理员'),
                         color: 'volcano'
                     }
                 };
                 return (
                     <Tag color={roles[value].color} key={roles[value].key}>
-                        {roles[value].tag}
+                        {roles[value].tag.toUpperCase()}
                     </Tag>
                 );
             }
         },
         {
-            title: '备注',
+            title: t('备注'),
             dataIndex: 'remark',
             key: 'remark',
             ...getColumnSearchProps('remark'),
@@ -169,7 +170,7 @@ export default function User() {
             }
         },
         {
-            title: '操作',
+            title: t('操作'),
             render(rol) {
                 const disabled = ls.get('user').role <= rol.role ? true : false;
                 return (
@@ -183,7 +184,7 @@ export default function User() {
                                 setVisible(true);
                             }}
                             disabled={disabled}>
-                            编辑
+                            {t('编辑')}
                         </Button>
                         <Button
                             type='text'
@@ -194,7 +195,7 @@ export default function User() {
                                 refresh();
                             }}
                             disabled={disabled}>
-                            删除
+                            {t('删除')}
                         </Button>
                     </div>
                 );
@@ -213,7 +214,7 @@ export default function User() {
                             setUserData({});
                         }}>
                         <UserAddOutlined />
-                        添加用户
+                        {t('添加用户')}
                     </Button>
                 </Space>
                 <Table columns={columns} dataSource={userList} rowKey='id' />

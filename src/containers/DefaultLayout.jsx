@@ -3,6 +3,7 @@ import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import routes from '@/routes';
 import { Layout, BackTop, message, Tabs } from 'antd';
 import '@/style/layout.less';
+import { useTranslation } from 'react-i18next';
 
 import AppHeader from './AppHeader.jsx';
 import AppAside from './AppAside.jsx';
@@ -23,8 +24,10 @@ const getMenu = menu => {
 };
 
 export default function DefaultLayout(props) {
+    const { t } = useTranslation();
+
     useEffect(() => {
-        ss.set('tabList', [{ title: '首页', content: '', key: '/index', closable: false }]);
+        ss.set('tabList', [{ title: t('首页'), content: '', key: '/index', closable: false }]);
     }, []);
 
     const [menu] = useState(prevState => {
@@ -40,7 +43,7 @@ export default function DefaultLayout(props) {
 
     const [menuToggle, setMenuToggle] = useState(false);
     const [panes, setPanes] = useState(
-        ss.get('tabList', [{ title: '首页', content: '', key: '/index', closable: false }])
+        ss.get('tabList', [{ title: t('首页'), content: '', key: '/index', closable: false }])
     );
     const [activeKey, setActiveKey] = useState(panes[0].key);
 
@@ -53,7 +56,7 @@ export default function DefaultLayout(props) {
     const loginOut = () => {
         localStorage.clear();
         props.history.push('/login');
-        message.success('登出成功!');
+        // message.success('登出成功!');
     };
 
     const remove = (targetKey, action) => {
@@ -111,7 +114,7 @@ export default function DefaultLayout(props) {
                         onEdit={remove}
                         style={{ marginBottom: -17 }}>
                         {panes?.map(pane => (
-                            <TabPane tab={pane.title} key={pane.key} closable={pane.closable} />
+                            <TabPane tab={t(pane.title)} key={pane.key} closable={pane.closable} />
                         ))}
                     </Tabs>
                     <Switch>

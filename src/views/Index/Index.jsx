@@ -23,7 +23,7 @@ const Index = () => {
     };
     return (
         <Layout className='index animated fadeIn'>
-            <div className='base-style' style={{ height: 620, overflow: 'scroll' }}>
+            <div className='base-style' style={{ height: 660, overflow: 'scroll' }}>
                 <Row gutter={24} className='index-header'>
                     <Col span={6}>
                         <div className='base-style wechat'>
