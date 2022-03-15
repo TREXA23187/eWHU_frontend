@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch, Redirect, withRouter, Link, useHistory } from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import routes from '@/routes';
-import { Layout, BackTop, message, Tabs, Menu } from 'antd';
+import { Layout, BackTop, message, Tabs } from 'antd';
 import '@/style/layout.less';
 
 import AppHeader from './AppHeader.jsx';
@@ -89,9 +89,16 @@ export default function DefaultLayout(props) {
     return (
         <Layout className='app'>
             <BackTop />
-            <AppAside menuToggle={menuToggle} menu={menu} updateTabs={updateTabs} />
+            <AppAside
+                menuToggle={menuToggle}
+                menuClick={menuClick}
+                menu={menu}
+                updateTabs={updateTabs}
+                avatar={avatar}
+                loginOut={loginOut}
+            />
             <Layout style={{ minHeight: '100vh' }}>
-                <AppHeader menuToggle={menuToggle} menuClick={menuClick} avatar={avatar} loginOut={loginOut} />
+                {/* <AppHeader menuToggle={menuToggle} menuClick={menuClick} avatar={avatar} loginOut={loginOut} /> */}
                 <Content className='content'>
                     <Tabs
                         hideAdd
