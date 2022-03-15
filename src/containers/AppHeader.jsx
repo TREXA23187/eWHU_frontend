@@ -17,7 +17,7 @@ const { Header } = Layout;
 const AppHeader = props => {
     let { menuClick, avatar, menuToggle, loginOut } = props;
     const menu = (
-        <Menu>
+        <Menu style={{ width: 182 }}>
             <Menu.ItemGroup title='用户设置'>
                 <Menu.Divider />
                 <Menu.Item>
@@ -51,7 +51,7 @@ const AppHeader = props => {
                 {menuToggle ? <MenuUnfoldOutlined onClick={menuClick} /> : <MenuFoldOutlined onClick={menuClick} />}
             </div>
             <div className='right'>
-                <div className='mr15'>
+                {/* <div className='mr15'>
                     <a rel='noopener noreferrer' href='/' target='_blank'>
                         <GithubOutlined style={{ color: '#000' }} />
                     </a>
@@ -62,11 +62,10 @@ const AppHeader = props => {
                             <BellOutlined />
                         </a>
                     </Badge>
-                </div>
+                </div> */}
                 <div>
-                    <Dropdown overlay={menu} overlayStyle={{ width: '20rem' }}>
+                    <Dropdown overlay={menu} overlayStyle={{ width: 1050 }}>
                         <div className='ant-dropdown-link'>
-                            {/* <Avatar icon='user' src={avatar} alt='avatar' style={{ cursor: 'pointer' }} /> */}
                             <Avatar src={avatar} alt='avatar' style={{ cursor: 'pointer' }} />
                         </div>
                     </Dropdown>

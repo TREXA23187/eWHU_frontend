@@ -81,10 +81,6 @@ export default function DefaultLayout(props) {
         history.replace(newPanes[0]?.key || '/index');
     };
 
-    const renderTabPaneItem = ({ key, title, closable }) => {
-        return <TabPane tab={title} key={key} closable={closable} />;
-    };
-
     const updateTabs = (key, panes) => {
         setActiveKey(key);
         setPanes(panes);
@@ -131,7 +127,7 @@ export default function DefaultLayout(props) {
                         <Redirect to='/404' />
                     </Switch>
                 </Content>
-                <AppFooter />
+                {/* <AppFooter /> */}
             </Layout>
         </Layout>
     );

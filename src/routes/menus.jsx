@@ -8,7 +8,7 @@ import {
     TeamOutlined,
     BarsOutlined,
     UserOutlined,
-    FundViewOutlined
+    MailOutlined
 } from '@ant-design/icons';
 
 const menus = [
@@ -55,6 +55,11 @@ const menus = [
         key: '/map',
         title: '地图',
         icon: <CompassOutlined />
+    },
+    {
+        key: '/feedback',
+        title: '用户反馈',
+        icon: <MailOutlined />
     },
     // {
     //     title: '展示',
@@ -122,7 +127,8 @@ export const routesNameMap = {
     '/form/step-form': '步骤表单',
     '/map': '地图',
     '/about': '关于',
-    '/user': '用户管理'
+    '/user': '用户管理',
+    '/feedback': '用户反馈'
 };
 
 export default menus;

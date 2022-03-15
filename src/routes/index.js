@@ -34,16 +34,14 @@ const Multilevel = AsyncLoadable(() => import(/* webpackChunkName: 'three' */ '@
 //关于
 const About = AsyncLoadable(() => import(/* webpackChunkName: 'about' */ '@/views/About'));
 
-// 示例
-const Example1 = AsyncLoadable(() => import(/* webpackChunkName: 'example1' */ '@/views/Test/Example1'));
-const Example2 = AsyncLoadable(() => import(/* webpackChunkName: 'example2' */ '@/views/Test/Example2/index'));
-// const Example3 = AsyncLoadable(() => import(/* webpackChunkName: 'example3' */ '@/views/Test/Example3'))
-
 // 地图
 const Map = AsyncLoadable(() => import(/* webpackChunkName: 'map' */ '@/views/Map'));
 
 // 用户管理
 const User = AsyncLoadable(() => import(/* webpackChunkName: 'user' */ '@/views/User'));
+
+// 用户反馈
+const Feedback = AsyncLoadable(() => import(/* webpackChunkName: 'user' */ '@/views/Feedback'));
 
 const routes = [
     { path: '/index', exact: true, name: '首页', component: Index },
@@ -51,6 +49,7 @@ const routes = [
     { path: '/public/icon', exact: false, name: '图标', component: IconView },
     { path: '/user', exact: false, name: '用户管理', component: User, auth: [1, 2] },
     { path: '/map', exact: false, name: '地图', component: Map },
+    { path: '/feedback', exact: false, name: '用户反馈', component: Feedback, auth: [1, 2] },
     // { path: '/nav/dropdown', exact: false, name: '下拉菜单', component: DropdownView },
     // { path: '/nav/menu', exact: false, name: '下拉菜单', component: MenuView },
     // { path: '/nav/steps', exact: false, name: '步骤条', component: StepView },

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Layout, Divider, Table, Input, Button, Space, message } from 'antd';
+import { Layout, Tag, Table, Input, Button, Space, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/hooks';
@@ -136,11 +136,27 @@ export default function User() {
             ...getColumnSearchProps('role'),
             render(value) {
                 const roles = {
-                    0: '普通用户',
-                    1: '管理员',
-                    2: '超级管理员'
+                    0: {
+                        key: 'user',
+                        tag: '普通用户',
+                        color: 'green'
+                    },
+                    1: {
+                        key: 'admin',
+                        tag: '管理员',
+                        color: 'geekblue'
+                    },
+                    2: {
+                        key: 'super',
+                        tag: '超级管理员',
+                        color: 'volcano'
+                    }
                 };
-                return roles[value];
+                return (
+                    <Tag color={roles[value].color} key={roles[value].key}>
+                        {roles[value].tag}
+                    </Tag>
+                );
             }
         },
         {

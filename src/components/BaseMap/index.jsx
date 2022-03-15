@@ -9,10 +9,11 @@ import { SuperMap } from '@supermap/iclient-leaflet';
 import { BasemapType } from '@/constants/basemap';
 // import walkIcon from "../../assets/image/walk.png"
 import { Button, Form, Input, Select, Alert, Result } from 'antd';
+import { findPath } from '@/utils/map';
 
 import SearchDataModel from './search-data-modal';
 
-const baseUrl = '8.134.215.136';
+const baseUrl = 'localhost';
 
 const url = `http://${baseUrl}:8090/iserver/services/map-whu_map/rest/maps/whu_map`;
 const serviceUrl = `http://${baseUrl}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; //路径分析url
@@ -24,7 +25,7 @@ const wsHost = 'wss://' + (window.isLocal ? document.location.hostname + ':8800'
 const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow';
 
 export default function BaseMap(props) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     const [baseMap, setBaseMap] = useState(null);
 
@@ -300,14 +301,6 @@ export default function BaseMap(props) {
             setPathNodes([]);
         });
     };
-
-    const handleShow = () => {
-        editableLayer.eachLayer(layer => {
-            console.log(layer);
-            // editableLayer.removeLayer(layer)
-        });
-    };
-
     const handleBuffer = () => {
         console.log(bufferRoute);
 
@@ -342,8 +335,8 @@ export default function BaseMap(props) {
     };
 
     return (
-        <div>
-            <div className='base-style'>
+        <div className='base-style'>
+            <div>
                 <div className='button-area'>
                     <Button
                         className='base-button'
@@ -353,17 +346,31 @@ export default function BaseMap(props) {
                         }}>
                         {t('数据查询')}
                     </Button>
-                    <Button className='base-button'>何时使用</Button>
-                    <Button className='base-button'>何时使用</Button>
+                    <Button
+                        className='base-button'
+                        // onClick={async () => {
+                        //     const callback = result => {
+                        //         console.log(result);
+                        //         if (result.succeed) {
+                        //             setBufferRoute(result.pathList[0]);
+                        //             setPathNodes([]);
+                        //         }
+                        //     };
+                        //     findPath(baseMap, pathNodes, callback);
+                        // }}>
+                        onClick={handleFindPath}>
+                        路径查询
+                    </Button>
+                    <Button className='base-button' onClick={handleBuffer}>
+                        缓冲区分析
+                    </Button>
+                    <Button className='base-button' danger onClick={handleRemove}>
+                        清空图层
+                    </Button>
                 </div>
                 <div id='map' ref={mapRef}></div>
             </div>
-            <div className='button-group'>
-                <button onClick={handleShow}>show layers</button>
-                <button onClick={handleRemove}>remove</button>
-                <button onClick={handleFindPath}>match</button>
-                <button onClick={handleBuffer}>buffer</button>
-            </div>
+
             <SearchDataModel visible={visible} onCancel={() => setVisible(false)} map={baseMap} />
         </div>
     );

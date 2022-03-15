@@ -20,18 +20,14 @@ export default function SearchDataModel(props) {
         onCancel();
     };
 
-    const handleChange = value => {
-        console.log(`selected ${value}`);
-    };
-
     return (
         <Modal title={t('数据查询')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
             <Form {...layout} initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
                 <Form.Item label='数据名称' name='dataName' rules={[{ required: true, message: '请输入数据名称' }]}>
-                    <Select style={{ width: 120 }} onChange={handleChange}>
+                    <Select style={{ width: 120 }}>
                         <Option value='POI'>POI</Option>
-                        <Option value='学校范围'>学校范围</Option>
-                        <Option value='建筑'>建筑</Option>
+                        <Option value='boundary'>学校范围</Option>
+                        <Option value='building'>建筑</Option>
                     </Select>
                 </Form.Item>
 
