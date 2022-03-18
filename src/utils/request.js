@@ -16,6 +16,11 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     response => {
+        const code = response.data.code;
+        if (code === '10101' || code === '10102') {
+            window.location.replace('/login');
+            return;
+        }
         return response.data;
     },
     err => {

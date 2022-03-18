@@ -56,5 +56,6 @@ export default {
     '例如 name = "自强超市"': 'For example: name = "自强超市"',
     请输入用户名: 'Please input username',
     请输入密码: 'Please input password',
-    '请输入学号/工号': 'Please input study ID/job ID'
+    '请输入学号/工号': 'Please input study ID/job ID',
+    添加反馈: 'Add feedback'
 };

@@ -21,7 +21,8 @@ const menus = [
     {
         key: '/feedback',
         title: '用户反馈',
-        icon: <MailOutlined />
+        icon: <MailOutlined />,
+        auth: [1, 2]
     },
     {
         title: '关于',

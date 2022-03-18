@@ -217,7 +217,7 @@ export default function User() {
                         {t('添加用户')}
                     </Button>
                 </Space>
-                <Table columns={columns} dataSource={userList} rowKey='id' />
+                <Table columns={columns} dataSource={userList} pagination={{ defaultPageSize: 5 }} rowKey='id' />
             </div>
             <AddUserModel
                 data={userData}

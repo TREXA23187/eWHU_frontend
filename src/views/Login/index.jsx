@@ -21,12 +21,10 @@ const Login = props => {
             ls.set('user', res.data.user_info);
             setLoading(false);
             message.success('登录成功!');
-            setTimeout(() => {
-                props.history.push('/');
-            }, 1000);
+            props.history.push('/');
         } else {
             setLoading(false);
-            message.success(res.message);
+            message.error(res.message);
         }
     };
 

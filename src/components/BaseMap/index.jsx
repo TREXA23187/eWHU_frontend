@@ -43,8 +43,10 @@ export default function BaseMap(props) {
 
     useEffect(() => {
         const map = L.map(mapRef.current, {
-            center: [30.538945198059086, 114.35969352722168],
-            zoom: 12,
+            center: [30.537945198059086, 114.35969352722168],
+            zoom: 14,
+            maxZoom: 17,
+            minZoom: 12,
             crs: L.CRS.TianDiTu_WGS84,
             attributionControl: false, //隐藏copyright
             invalidateSize: true
