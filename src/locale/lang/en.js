@@ -57,5 +57,7 @@ export default {
     请输入用户名: 'Please input username',
     请输入密码: 'Please input password',
     '请输入学号/工号': 'Please input study ID/job ID',
-    添加反馈: 'Add feedback'
+    添加反馈: 'Add feedback',
+    反馈信息: 'Feedback infomation',
+    反馈图片: 'Feedback picture'
 };

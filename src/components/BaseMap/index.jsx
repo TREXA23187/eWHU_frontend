@@ -10,14 +10,13 @@ import { BasemapType } from '@/constants/basemap';
 // import walkIcon from "../../assets/image/walk.png"
 import { Button, Form, Input, Select, Alert, Result } from 'antd';
 import { findPath } from '@/utils/map';
+import { BASE_URL } from '@/configs/config.default';
 
 import SearchDataModel from './search-data-modal';
 
-const baseUrl = 'localhost';
-
-const url = `http://${baseUrl}:8090/iserver/services/map-whu_map/rest/maps/whu_map`;
-const serviceUrl = `http://${baseUrl}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; //路径分析url
-const bufferUrl = `http://${baseUrl}:8090/iserver/services/spatialAnalysis-whu_map/restjsr/spatialanalyst`; //缓冲区分析url
+const url = `http://${BASE_URL}:8090/iserver/services/map-whu_map/rest/maps/whu_map`;
+const serviceUrl = `http://${BASE_URL}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; //路径分析url
+const bufferUrl = `http://${BASE_URL}:8090/iserver/services/spatialAnalysis-whu_map/restjsr/spatialanalyst`; //缓冲区分析url
 
 const host = window.isLocal ? window.server : 'https://iserver.supermap.io';
 const urlQuery = host + '/iserver/services/map-china400/rest/maps/China_4326';

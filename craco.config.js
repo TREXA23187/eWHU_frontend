@@ -1,6 +1,6 @@
 // const path = require('path');
-const CracoAntDesignPlugin = require('craco-antd')
-const CracoAlias = require('craco-alias')
+const CracoAntDesignPlugin = require('craco-antd');
+const CracoAlias = require('craco-alias');
 
 module.exports = {
     plugins: [
@@ -31,8 +31,9 @@ module.exports = {
         proxy: {
             '/api': {
                 target: 'http://localhost:3001',
+                // target: 'http://8.134.215.136:3001',
                 changeOrigin: true
             }
         }
     }
-}
+};

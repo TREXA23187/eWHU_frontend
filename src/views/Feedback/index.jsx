@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ExclamationCircleTwoTone, CheckCircleTwoTone, DownOutlined, MinusCircleTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import AddFeedbackModel from '@/components/Feedback/add-feedback-modal';
+import FeedbackInfoDrawer from '@/components/Feedback/feedback-info-drawer';
 import { useRequest } from '@umijs/hooks';
 import { getFeedbackList, changeStatus } from '@/api/feedback';
 
@@ -15,6 +16,7 @@ export default function FeedbackView() {
     const { t } = useTranslation();
     // const [date, setDate] = useState([moment('2022-03-02'), moment('2022-04-29')]);
     const [visible, setVisible] = useState(false);
+    const [addVisible, setAddVisible] = useState(false);
     const [detail, setDetail] = useState({});
 
     const [selectedType, setSelectedType] = useState('all');
@@ -207,12 +209,18 @@ export default function FeedbackView() {
                         />
                     </div>
                     <div>
-                        <Button onClick={() => setVisible(true)}>添加反馈</Button>
+                        <Button onClick={() => setAddVisible(true)}>{t('添加反馈')}</Button>
                     </div>
                 </Space>
                 <Table columns={columns} dataSource={feedbackList} pagination={{ defaultPageSize: 5 }} rowKey='id' />
             </div>
             <AddFeedbackModel
+                visible={addVisible}
+                onClose={() => setAddVisible(false)}
+                onUpdate={() => run({})}
+                data={detail}
+            />
+            <FeedbackInfoDrawer
                 visible={visible}
                 onClose={() => setVisible(false)}
                 onUpdate={() => run({})}

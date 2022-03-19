@@ -1,10 +1,9 @@
 import L from 'leaflet';
 import { SuperMap } from '@supermap/iclient-leaflet';
+import { BASE_URL } from '@/constants';
 
-const baseUrl = 'localhost';
-
-const dataUrl = `http://${baseUrl}:8090/iserver/services/data-whu_map/rest/data`; // 数据查询url
-const serviceUrl = `http://${baseUrl}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; // 路径分析url
+const dataUrl = `http://${BASE_URL}:8090/iserver/services/data-whu_map/rest/data`; // 数据查询url
+const serviceUrl = `http://${BASE_URL}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; // 路径分析url
 
 export const query = (map, name, filter) => {
     let resultLayer;
