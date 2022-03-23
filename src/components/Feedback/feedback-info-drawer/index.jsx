@@ -5,18 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { addFeedback } from '@/api/feedback';
 import { ls } from '@/utils/storage';
 
-const Option = Select.Option;
-const { TextArea } = Input;
-
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-}
-
 export default function FeedbackInfoDrawer(props) {
     const { data, visible, onClose, onUpdate } = props;
     const { t } = useTranslation();
@@ -56,12 +44,6 @@ export default function FeedbackInfoDrawer(props) {
     const handleChange = ({ fileList }) => {
         setFileList(fileList);
     };
-    const uploadButton = (
-        <div>
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    );
 
     return (
         <Drawer title={t('反馈信息')} visible={visible} destroyOnClose footer={null} onClose={onClose} width='500'>
@@ -86,7 +68,6 @@ export default function FeedbackInfoDrawer(props) {
                     </Form.Item>
                 )}
                 <Form.Item label={t('备注')}>
-                    {/* <TextArea showCount maxLength={100} autoSize={{ minRows: 3, maxRows: 5 }} /> */}
                     <div>{data.remark}</div>
                 </Form.Item>
             </Form>

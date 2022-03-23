@@ -41,14 +41,6 @@ export default function AddFeedbackModel(props) {
     }, [visible]);
 
     const onSubmit = async () => {
-        // if (type === 'add') {
-        //     const res = await addUser(values);
-        //     message.success(res.message);
-        // } else {
-        //     const res = await changeUserInfo({ id: data.id, ...values });
-        //     message.success(res.message);
-        // }
-        // onClose();
         const values = await form.validateFields();
         const info_picture = values.info_picture?.fileList || [];
         const param = { ...values, username: userInfo.username, school_id: userInfo.school_id, info_picture };
@@ -60,15 +52,10 @@ export default function AddFeedbackModel(props) {
     };
 
     const handlePreview = async file => {
-        console.log(file);
-
         console.log(file.originFileObj);
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
-
-        console.log(file.preview);
-
         // setPreviewImage(file.url || file.preview);
         // setPreviewVisible(true);
         // setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
@@ -120,7 +107,6 @@ export default function AddFeedbackModel(props) {
                 </Form.Item>
                 <Form.Item label={t('详细图片')} name='info_picture'>
                     <Upload
-                        // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                         action='/api/feedback/img'
                         listType='picture-card'
                         fileList={fileList}

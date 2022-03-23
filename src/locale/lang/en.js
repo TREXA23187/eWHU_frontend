@@ -59,5 +59,9 @@ export default {
     '请输入学号/工号': 'Please input study ID/job ID',
     添加反馈: 'Add feedback',
     反馈信息: 'Feedback infomation',
-    反馈图片: 'Feedback picture'
+    反馈图片: 'Feedback picture',
+    添加应用: 'Add application',
+    应用信息: 'Application info',
+    编辑应用: 'Edit application',
+    上传: 'Upload'
 };

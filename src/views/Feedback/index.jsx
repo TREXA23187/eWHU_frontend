@@ -71,7 +71,7 @@ export default function FeedbackView() {
             title: t('反馈类型'),
             key: 'type',
             dataIndex: 'type',
-            render: type => <>{problemType[type]}</>
+            render: type => <>{problemType[type] || t('其他')}</>
         },
         {
             title: t('反馈状态'),
@@ -208,9 +208,9 @@ export default function FeedbackView() {
                             placeholder={[t('开始时间'), t('结束时间')]}
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <Button onClick={() => setAddVisible(true)}>{t('添加反馈')}</Button>
-                    </div>
+                    </div> */}
                 </Space>
                 <Table columns={columns} dataSource={feedbackList} pagination={{ defaultPageSize: 5 }} rowKey='id' />
             </div>
