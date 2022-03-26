@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined, UserAddOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/hooks';
 import { getUserList, deleteUser } from '@/api/user';
-import AddUserModel from '@/components/User/add-user-modal';
+import AddUserModal from '@/components/User/add-user-modal';
 import { ls } from '@/utils/storage';
 import { useTranslation } from 'react-i18next';
 
@@ -219,7 +219,7 @@ export default function User() {
                 </Space>
                 <Table columns={columns} dataSource={userList} pagination={{ defaultPageSize: 5 }} rowKey='id' />
             </div>
-            <AddUserModel
+            <AddUserModal
                 data={userData}
                 visible={visible}
                 type={modalType}

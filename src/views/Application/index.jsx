@@ -2,13 +2,12 @@ import React, { useState, useRef } from 'react';
 import { Layout, Button, Row, Col, List, Card, Empty, Input, Modal } from 'antd';
 import { PlusOutlined, ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
 import './index.less';
-import { useTranslation } from 'react-i18next';
 import AppInfoDrawer from '@/components/Application/app-info-drawer';
 import { useRequest } from '@umijs/hooks';
 import { addAppGroup, getAppGroup, getApplication } from '@/api/app';
+import { t } from 'i18next';
 
 export default function ApplicationView() {
-    const { t } = useTranslation();
     const [editAdd, setEditAdd] = useState(false);
     const [newGroup, setNewGroup] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
@@ -86,7 +85,7 @@ export default function ApplicationView() {
 
     return (
         <Layout>
-            <div className='base-style' style={{ height: 660, overflow: 'scroll' }}>
+            <div className='base-style base-view'>
                 {/* <div style={{ backgroundColor: 'red', marginBottom: 20 }}>
                     <Button>{t('添加应用')}</Button>
                 </div> */}

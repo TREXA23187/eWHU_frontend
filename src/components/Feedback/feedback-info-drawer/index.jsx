@@ -62,6 +62,7 @@ export default function FeedbackInfoDrawer(props) {
                         <Upload
                             action='/api/feedback/img'
                             listType='picture-card'
+                            disabled
                             fileList={data.info_picture}
                             onPreview={handlePreview}
                             onChange={handleChange}></Upload>

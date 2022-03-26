@@ -52,7 +52,6 @@ export default function AddFeedbackModel(props) {
     };
 
     const handlePreview = async file => {
-        console.log(file.originFileObj);
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }

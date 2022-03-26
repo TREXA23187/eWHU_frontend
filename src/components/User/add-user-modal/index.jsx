@@ -5,7 +5,7 @@ import { addUser, changeUserInfo } from '@/api/user';
 
 const Option = Select.Option;
 
-export default function AddUserModel(props) {
+export default function AddUserModal(props) {
     const { data, type, visible, onCancel } = props;
     const { t } = useTranslation();
 
@@ -25,10 +25,6 @@ export default function AddUserModel(props) {
         onCancel();
     };
 
-    const handleChange = value => {
-        console.log(`selected ${value}`);
-    };
-
     return (
         <Modal title={t('添加用户')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
             <Form {...layout} initialValues={{ role: 0, remark: '', ...data }} onFinish={onFinish} autoComplete='off'>
@@ -41,7 +37,7 @@ export default function AddUserModel(props) {
                     </Form.Item>
                 )}
                 <Form.Item label={t('角色')} name='role' rules={[{ required: true, message: t('请选择角色') }]}>
-                    <Select style={{ width: 120 }} onChange={handleChange}>
+                    <Select style={{ width: 120 }}>
                         <Option value={0}>{t('普通用户')}</Option>
                         <Option value={1}>{t('管理员')}</Option>
                         <Option value={2}>{t('超级管理员')}</Option>

@@ -61,7 +61,19 @@ export default {
     反馈信息: 'Feedback infomation',
     反馈图片: 'Feedback picture',
     添加应用: 'Add application',
+    添加分组: 'Add application group',
     应用信息: 'Application info',
     编辑应用: 'Edit application',
-    上传: 'Upload'
+    上传: 'Upload',
+    学校要闻: 'University news',
+    院系资讯: 'School infomation',
+    应用管理: 'Application',
+    资讯发布: 'News release',
+    应用名称: 'Name',
+    '应用名称 (英文)': 'Name (English)',
+    应用描述: 'Description',
+    '应用描述 (英文)': 'Description (English)',
+    应用分组: 'Group',
+    应用图标: 'Icon',
+    预览模式: 'Preview mode'
 };
