@@ -43,7 +43,15 @@ export default function AddFeedbackModel(props) {
     const onSubmit = async () => {
         const values = await form.validateFields();
         const info_picture = values.info_picture?.fileList || [];
-        const param = { ...values, username: userInfo.username, school_id: userInfo.school_id, info_picture };
+        const coordinates = [values.latitude.trim(), values.longitude.trim()];
+        const param = {
+            ...values,
+            username: userInfo.username,
+            school_id: userInfo.school_id,
+            info_picture,
+            coordinates
+        };
+        console.log(param);
         const res = await addFeedback(param);
         if (res.code === 0) {
             onClose();
@@ -102,6 +110,18 @@ export default function AddFeedbackModel(props) {
                     label={t('详细信息')}
                     name='info_detail'
                     rules={[{ required: true, message: '请输入详细信息' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label={t('位置(纬度)')}
+                    name='latitude'
+                    rules={[{ required: true, message: '请输入坐标纬度' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label={t('位置(经度)')}
+                    name='longitude'
+                    rules={[{ required: true, message: '请输入坐标经度' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label={t('详细图片')} name='info_picture'>

@@ -5,25 +5,29 @@ import { BASE_URL } from '@/constants';
 const dataUrl = `http://${BASE_URL}:8090/iserver/services/data-whu_map/rest/data`; // 数据查询url
 const serviceUrl = `http://${BASE_URL}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; // 路径分析url
 
-export const query = (map, name, filter) => {
-    let resultLayer;
-    const sqlParam = new SuperMap.GetFeaturesBySQLParameters({
-        queryParameter: {
-            name: `${name}@whu_map`,
-            attributeFilter: filter
-        },
-        datasetNames: [`whu_map:${name}`]
-    });
+export const query = (map, filter) => {
+    return new Promise((resolve, reject) => {
+        let resultLayer;
+        const sqlParam = new SuperMap.GetFeaturesBySQLParameters({
+            queryParameter: {
+                name: `POI@whu_map`,
+                attributeFilter: `name = "${filter}"`
+            },
+            datasetNames: [`whu_map:POI`]
+        });
 
-    L.supermap.featureService(dataUrl).getFeaturesBySQL(sqlParam, function(serviceResult) {
-        const features = serviceResult.result.features;
-        resultLayer = L.geoJSON(features, {
-            onEachFeature: (feature, layer) => {
-                layer.bindPopup(`${feature.properties.NAME || 'undefined'}`);
-            }
-        }).addTo(map);
+        L.supermap.featureService(dataUrl).getFeaturesBySQL(sqlParam, function(serviceResult) {
+            const features = serviceResult.result.features;
+            console.log(777, features);
+            resultLayer = L.geoJSON(features, {
+                onEachFeature: (feature, layer) => {
+                    layer.bindPopup(`${feature.properties.NAME || 'undefined'}`);
+                }
+            }).addTo(map);
+
+            resolve(features);
+        });
     });
-    return resultLayer;
 };
 
 export const findPath = (map, pathNodes, callback) => {
@@ -69,7 +73,6 @@ export const findPath = (map, pathNodes, callback) => {
             //   },
             // }).addTo(map);
         });
-        // setPathNodes([]);
         callback(result);
     });
 };

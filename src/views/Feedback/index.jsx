@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Input, Table, message, Space, Select, DatePicker, Button, Dropdown, Menu } from 'antd';
 import './index.less';
-import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 import { ExclamationCircleTwoTone, CheckCircleTwoTone, DownOutlined, MinusCircleTwoTone } from '@ant-design/icons';
 import moment from 'moment';
 import AddFeedbackModel from '@/components/Feedback/add-feedback-modal';
@@ -13,8 +13,6 @@ const Option = Select.Option;
 const { RangePicker } = DatePicker;
 
 export default function FeedbackView() {
-    const { t } = useTranslation();
-    // const [date, setDate] = useState([moment('2022-03-02'), moment('2022-04-29')]);
     const [visible, setVisible] = useState(false);
     const [addVisible, setAddVisible] = useState(false);
     const [detail, setDetail] = useState({});
@@ -208,9 +206,9 @@ export default function FeedbackView() {
                             placeholder={[t('开始时间'), t('结束时间')]}
                         />
                     </div>
-                    {/* <div>
+                    <div>
                         <Button onClick={() => setAddVisible(true)}>{t('添加反馈')}</Button>
-                    </div> */}
+                    </div>
                 </Space>
                 <Table columns={columns} dataSource={feedbackList} pagination={{ defaultPageSize: 5 }} rowKey='id' />
             </div>

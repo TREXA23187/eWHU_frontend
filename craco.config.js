@@ -33,6 +33,13 @@ module.exports = {
                 target: 'http://localhost:3001',
                 // target: 'http://8.134.215.136:3001',
                 changeOrigin: true
+            },
+            '/baidu': {
+                target: 'https://api.map.baidu.com/reverse_geocoding/v3',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/baidu': ''
+                }
             }
         }
     }

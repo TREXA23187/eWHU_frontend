@@ -6,7 +6,7 @@ import { query } from '@/utils/map';
 const Option = Select.Option;
 
 export default function SearchDataModel(props) {
-    const { map, visible, onCancel } = props;
+    const { map, visible, onCancel, onShow } = props;
     const { t, i18n } = useTranslation();
 
     const layout = {
@@ -16,13 +16,28 @@ export default function SearchDataModel(props) {
 
     const onFinish = async values => {
         const { dataName, dataFilter } = values;
-        await query(map, dataName, dataFilter);
+        console.log(2312312312, values);
+        const res = await query(map, dataFilter);
+        const locationList = res.features.map(item => {
+            const [lon, lat] = item.geometry.coordinates;
+            return {
+                id: item.id,
+                name: '自强超市',
+                location: `${lat},${lon}`
+            };
+        });
+        console.log(67676767, locationList);
+        onShow(locationList);
         onCancel();
     };
 
     return (
         <Modal title={t('数据查询')} visible={visible} destroyOnClose footer={null} onCancel={onCancel}>
-            <Form {...layout} initialValues={{ dataName: 'POI' }} onFinish={onFinish} autoComplete='off'>
+            <Form
+                {...layout}
+                initialValues={{ dataName: 'POI', dataFilter: '自强超市' }}
+                onFinish={onFinish}
+                autoComplete='off'>
                 <Form.Item
                     label={t('数据名称')}
                     name='dataName'
