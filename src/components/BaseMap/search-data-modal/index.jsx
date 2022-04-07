@@ -16,7 +16,6 @@ export default function SearchDataModel(props) {
 
     const onFinish = async values => {
         const { dataName, dataFilter } = values;
-        console.log(2312312312, values);
         const res = await query(map, dataFilter);
         const locationList = res.features.map(item => {
             const [lon, lat] = item.geometry.coordinates;

@@ -9,32 +9,23 @@ import './index.less';
 import { SuperMap } from '@supermap/iclient-leaflet';
 import { BasemapType } from '@/constants/basemap';
 import { useRequest } from '@umijs/hooks';
-import { Button, Select, Switch } from 'antd';
-import { findPath } from '@/utils/map';
+import { Button, Select } from 'antd';
 import { BASE_URL } from '@/constants';
 import moment from 'moment';
 import MarkerOrange from '@/assets/images/marker-orange.png';
 import MarkerGreen from '@/assets/images/marker-green.png';
 import MarkerGray from '@/assets/images/marker-gray.png';
 import { getFeedbackList } from '@/api/feedback';
-import SearchDataModel from './search-data-modal';
 import { t } from 'i18next';
 import { getLocationInfo } from '@/api/utils';
-import PieEcharts from './echarts-component/pie';
-import PictorialBarEcharts from './echarts-component/pictorialBar.jsx';
-import LineEcharts from './echarts-component/line.jsx';
 import NavigateInfoDiv from './navigate-info-div';
+import SearchInfoDiv from './search-info-div';
+import FeedbackInfoDiv from './feedback-info-div';
 
 const Option = Select.Option;
 
 const url = `http://${BASE_URL}:8090/iserver/services/map-whu_map/rest/maps/whu_map`;
 const serviceUrl = `http://${BASE_URL}:8090/iserver/services/transportationAnalyst-whu_map/rest/networkanalyst/whu_map_Network@whu_map`; //路径分析url
-const bufferUrl = `http://${BASE_URL}:8090/iserver/services/spatialAnalysis-whu_map/restjsr/spatialanalyst`; //缓冲区分析url
-
-const host = window.isLocal ? window.server : 'https://iserver.supermap.io';
-const urlQuery = host + '/iserver/services/map-china400/rest/maps/China_4326';
-const wsHost = 'wss://' + (window.isLocal ? document.location.hostname + ':8800' : 'iclsvrws.supermap.io');
-const urlDataFlow = wsHost + '/iserver/services/dataflowTest/dataflow';
 
 export default function BaseMap(props) {
     const { t } = useTranslation();
@@ -54,13 +45,7 @@ export default function BaseMap(props) {
     const [pathInfo, setPathInfo] = useState({});
     const [layersList, setLayersList] = useState([]);
 
-    const [bufferRoute, setBufferRoute] = useState(null);
-
-    const [pendingSwitch, setPendingSwitch] = useState(true);
-    const [resolvedSwitch, setResolvedSwitch] = useState(true);
-    const [discardedSwitch, setDiscardedSwitch] = useState(true);
-
-    const [navigateVisible, setNavigateVisible] = useState(false);
+    const [navigateVisible, setNavigateVisible] = useState(true);
     const [navigateData, setNavigateData] = useState([]);
     const [pointInfo, setPointInfo] = useState([]);
 
@@ -84,9 +69,6 @@ export default function BaseMap(props) {
 
         const markerLayers = new L.FeatureGroup();
         map.addLayer(markerLayers);
-
-        const feedbackPointLayers = new L.FeatureGroup();
-        map.addLayer(feedbackPointLayers);
 
         const options = {
             position: 'topleft',
@@ -192,77 +174,6 @@ export default function BaseMap(props) {
         // 添加控件
         L.control.scale().addTo(map);
         L.control.layers(baseMaps, overlayMaps).addTo(map);
-
-        // 数据流部分
-        // const popup = L.popup({
-        //     offset: L.point(0, 0),
-        //     autoPan: true
-        // })
-        // const dataFlowLayer = L.supermap.dataFlowLayer(urlDataFlow, {
-        //     style: function(feature) {
-        //         return {
-        //             fillColor: 'red',
-        //             fillOpacity: 1,
-        //             radius: 6,
-        //             weight: 0
-        //         }
-        //     }
-        //     //geometry:{coordinates:[[[116.381741960923,39.8765100055449],[116.414681699817,39.8765100055449],[116.414681699817,39.8415115329708],[116.381741960923, 39.8415115329708],[116.381741960923,39.8765100055449]]],type:"Polygon"},
-        //     //excludeField:["id"]
-        // })
-        // dataFlowLayer.on('dataupdated', function(result) {
-        //     var feature = result.data
-        //     popup.setLatLng(L.GeoJSON.coordsToLatLng(feature.geometry.coordinates)).setContent(feature.properties.time)
-        //     if (!popup.isOpen()) {
-        //         popup.addTo(map)
-        //     }
-        // })
-        // dataFlowLayer.addTo(map)
-
-        // //模拟实时数据  start
-        // //查询一个线数据，每两秒将一个点通过dataFlowService广播给iSevrer的dataflow服务
-        // query()
-        // var timer, featureResult, dataFlowBroadcast
-
-        // function query() {
-        //     var param = new SuperMap.QueryBySQLParameters({
-        //         queryParams: {
-        //             name: 'Main_Road_L@China#1',
-        //             attributeFilter: 'SMID = 1755'
-        //         }
-        //     })
-        //     L.supermap.queryService(urlQuery).queryBySQL(param, function(serviceResult) {
-        //         featureResult = serviceResult
-        //         dataFlowBroadcast = L.supermap.dataFlowService(urlDataFlow).initBroadcast()
-        //         dataFlowBroadcast.on('broadcastSocketConnected', function(e) {
-        //             // timer = window.setInterval(() => broadcast(), 2000);
-        //         })
-        //     })
-        // }
-
-        // var count = 200
-
-        // function broadcast() {
-        //     if (count >= featureResult.result.recordsets[0].features.features[0].geometry.coordinates.length) {
-        //         window.clearInterval(timer)
-        //         return
-        //     }
-        //     var point = featureResult.result.recordsets[0].features.features[0].geometry.coordinates[count]
-        //     var feature = {
-        //         geometry: {
-        //             coordinates: [point[0], point[1]],
-        //             type: 'Point'
-        //         },
-        //         type: 'Feature',
-        //         properties: {
-        //             id: 1,
-        //             time: new Date()
-        //         }
-        //     }
-        //     dataFlowBroadcast.broadcast(feature)
-        //     count += 3
-        // }
-        //模拟实时数据  end
     }, []);
 
     const handleRemove = () => {
@@ -297,7 +208,6 @@ export default function BaseMap(props) {
         //进行查找(长度优先)
         findPathService.findPath(findPathParameterLength, serviceResult => {
             const result = serviceResult.result;
-            console.log(123123, serviceResult);
             const directionMap = {
                 NORTH: '北',
                 EAST: '东',
@@ -346,8 +256,6 @@ export default function BaseMap(props) {
                 L.geoJSON(result.route, { color: 'red' }).addTo(baseMap);
             });
         });
-
-        //{info:infoList,weight}
 
         const analystParameterSpeed = new SuperMap.TransportationAnalystParameter({
             resultSetting: resultSetting,
@@ -414,37 +322,9 @@ export default function BaseMap(props) {
         setNavigateVisible(true);
         setPathNodes([]);
     };
-    const handleBuffer = () => {
-        console.log(bufferRoute);
 
-        // const roadLine = L.polyline(pointsList, {color: 'red'}).addTo(map);
-        const bufferAnalystService = L.supermap.spatialAnalystService(bufferUrl);
-        // //对生成的线路进行缓冲区分析
-        const geoBufferAnalystParams = new SuperMap.GeometryBufferAnalystParameters({
-            sourceGeometry: bufferRoute,
-            bufferSetting: new SuperMap.BufferSetting({
-                endType: SuperMap.BufferEndType.ROUND,
-                leftDistance: new SuperMap.BufferDistance({ value: 0.5 }),
-                rightDistance: new SuperMap.BufferDistance({ value: 0.5 }),
-                semicircleLineSegment: 10,
-                radiusUnit: SuperMap.BufferRadiusUnit.MILLIMETER
-            })
-        });
-        bufferAnalystService.bufferAnalysis(geoBufferAnalystParams, serviceResult => {
-            console.log(serviceResult);
-            const resultLayer = L.geoJSON(serviceResult.result.resultGeometry).addTo(baseMap);
-            // //查询出缓冲区内信号影响范围内的工厂
-            const queryService = L.supermap.queryService(url);
-            const queryByGeometryParameters = new SuperMap.QueryByGeometryParameters({
-                queryParams: [new SuperMap.FilterParameter({ name: 'POI@whu_map' })],
-                geometry: resultLayer,
-                spatialQueryMode: SuperMap.SpatialQueryMode.INTERSECT
-            });
-            queryService.queryByGeometry(queryByGeometryParameters, serviceResult => {
-                var result = serviceResult.result;
-                const resultLayer1 = L.geoJSON(result.recordsets[0].features).addTo(baseMap);
-            });
-        });
+    const changeCursorStyle = type => {
+        mapRef.current.style.cursor = type;
     };
 
     const showFeedback = () => {
@@ -509,14 +389,13 @@ export default function BaseMap(props) {
                             setViewType(value);
                         }}>
                         <Option value='basic'>{t('基本视图')}</Option>
+                        <Option value='search'>{t('查询视图')}</Option>
                         <Option value='feedback'>{t('反馈视图')}</Option>
                         <Option value='navigation'>{t('导航视图')}</Option>
                     </Select>
                     {viewType === 'basic' && (
                         <>
-                            <Button className='base-button' onClick={handleBuffer}>
-                                {t('缓冲区分析')}
-                            </Button>
+                            <Button className='base-button'>{t('缓冲区分析')}</Button>
                         </>
                     )}
                     {viewType === 'feedback' && (
@@ -555,48 +434,10 @@ export default function BaseMap(props) {
                         {t('清空图层')}
                     </Button>
                 </div>
-                {viewType === 'feedback' && (
-                    <>
-                        <div
-                            className='base-style'
-                            style={{
-                                position: 'absolute',
-                                zIndex: 99,
-                                width: 120,
-                                height: 85,
-                                right: 360,
-                                top: 50,
-                                fontSize: 5
-                            }}>
-                            <div>
-                                <span style={{ marginLeft: 12 }}>待解决: </span>
-                                <Switch size='small' checked={pendingSwitch} onChange={setPendingSwitch} />
-                            </div>
-                            <div>
-                                <span style={{ marginLeft: 12 }}>已解决: </span>
-                                <Switch size='small' checked={resolvedSwitch} onChange={setResolvedSwitch} />
-                            </div>
-                            <div>
-                                <span>无需解决: </span>
-                                <Switch size='small' checked={discardedSwitch} onChange={setDiscardedSwitch} />
-                            </div>
-                        </div>
-                        <div
-                            className='base-style'
-                            style={{
-                                position: 'absolute',
-                                zIndex: 99,
-                                width: 360,
-                                height: 550,
-                                right: 10,
-                                top: 50
-                            }}>
-                            <PieEcharts data={feedbackList} />
-                            <PictorialBarEcharts data={feedbackList} />
-                            <LineEcharts data={feedbackList} />
-                        </div>
-                    </>
+                {viewType === 'search' && (
+                    <SearchInfoDiv map={baseMap} onClear={handleRemove} onChangeCursor={changeCursorStyle} />
                 )}
+                {viewType === 'feedback' && <FeedbackInfoDiv data={feedbackList} />}
                 {viewType === 'navigation' && (
                     <NavigateInfoDiv
                         visible={navigateVisible}

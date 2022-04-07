@@ -11,16 +11,21 @@ import {
 } from '@ant-design/icons';
 import { t } from 'i18next';
 import L from 'leaflet';
-import { query } from '@/utils/map';
+import { query, measureDistance } from '@/utils/map';
+import MarkerOrange from '@/assets/images/marker-orange.png';
+import MarkerGreen from '@/assets/images/marker-green.png';
 
 const { Search } = Input;
 const { TabPane } = Tabs;
 
 export default function NavigateInfoDiv(props) {
     const { map, data, visible, pointInfo, pathInfo, onFindPath, onShow } = props;
+    const [searchValue, setSearchValue] = useState('');
     const [startPoint, setStartPoint] = useState(pointInfo[0] || {});
     const [endPoint, setEndPoint] = useState(pointInfo[1] || {});
     const [isStart, setIsStart] = useState(true);
+
+    const [showRoute, setShowRoute] = useState(false);
 
     useEffect(() => {
         if (startPoint.name) {
@@ -32,15 +37,23 @@ export default function NavigateInfoDiv(props) {
 
     const onSearch = async value => {
         const res = await query(map, value);
-        const locationList = res.features.map(item => {
+        const locationList = [];
+        for (let item of res.features) {
             const [lon, lat] = item.geometry.coordinates;
-            return {
+            const result = {
                 id: item.id,
-                name: value,
+                name: item.properties.NAME,
                 location: `${lat},${lon}`
             };
-        });
-        onShow(locationList);
+            if (startPoint.location) {
+                const { distance } = await measureDistance(startPoint.location, [lat, lon]);
+                result.distance = parseInt(distance);
+            }
+
+            locationList.push(result);
+        }
+
+        onShow(startPoint.location ? locationList.sort((a, b) => a.distance - b.distance) : locationList);
     };
 
     const findPath = () => {
@@ -64,7 +77,15 @@ export default function NavigateInfoDiv(props) {
                 top: 50,
                 display: visible ? 'inline-block' : 'none'
             }}>
-            <Search placeholder='搜索目的地' allowClear enterButton='搜索' size='middle' onSearch={onSearch} />
+            <Search
+                placeholder='搜索目的地'
+                allowClear
+                enterButton='搜索'
+                size='middle'
+                onSearch={onSearch}
+                value={searchValue}
+                onChange={e => setSearchValue(e.target.value)}
+            />
             <div style={{ marginTop: 10 }}>
                 <Input
                     style={{ width: 140 }}
@@ -83,8 +104,9 @@ export default function NavigateInfoDiv(props) {
                         renderItem={item => (
                             <List.Item>
                                 <List.Item.Meta
-                                    // avatar={<Avatar src='https://joeschmoe.io/api/v1/random' />}
-                                    title={<a href='https://ant.design'>{item.name}</a>}
+                                    title={
+                                        <a>{item.distance ? `${item.name} (距离: ${item.distance}米)` : item.name}</a>
+                                    }
                                     description={item.address}
                                 />
                                 <div style={{ width: 50, marginRight: 10 }}>
@@ -108,6 +130,16 @@ export default function NavigateInfoDiv(props) {
                                                 const [lat, lon] = item.location.split(',');
                                                 map.setView([lat, lon], 16);
                                                 setStartPoint({ name: item.name, location: [lat, lon] });
+                                                L.marker([lat, lon], {
+                                                    icon: L.icon({
+                                                        iconUrl: MarkerGreen,
+                                                        iconSize: [25, 41],
+                                                        iconAnchor: [13, 41],
+                                                        popupAnchor: [0, -20]
+                                                    })
+                                                })
+                                                    .bindPopup(`起点: ${item.name}`)
+                                                    .addTo(map);
                                             }}>
                                             <>
                                                 <ToTopOutlined style={{ marginRight: 10 }} />
@@ -122,6 +154,16 @@ export default function NavigateInfoDiv(props) {
                                                 const [lat, lon] = item.location.split(',');
                                                 map.setView([lat, lon], 16);
                                                 setEndPoint({ name: item.name, location: [lat, lon] });
+                                                L.marker([lat, lon], {
+                                                    icon: L.icon({
+                                                        iconUrl: MarkerOrange,
+                                                        iconSize: [25, 41],
+                                                        iconAnchor: [13, 41],
+                                                        popupAnchor: [0, -20]
+                                                    })
+                                                })
+                                                    .bindPopup(`终点: ${item.name}`)
+                                                    .addTo(map);
                                             }}>
                                             <>
                                                 <VerticalAlignTopOutlined style={{ marginRight: 10 }} />
